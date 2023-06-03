@@ -39,7 +39,11 @@ public partial class Contact
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 
+    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+
     public virtual User? ModifiedByNavigation { get; set; }
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual User Owner { get; set; } = null!;
 

@@ -37,6 +37,14 @@ public partial class User
 
     public virtual ICollection<Contact> ContactOwners { get; set; } = new List<Contact>();
 
+    public virtual ICollection<Invoice> InvoiceCreatedByNavigations { get; set; } = new List<Invoice>();
+
+    public virtual ICollection<Invoice> InvoiceUpdatedByNavigations { get; set; } = new List<Invoice>();
+
+    public virtual ICollection<Order> OrderCreatedByNavigations { get; set; } = new List<Order>();
+
+    public virtual ICollection<Order> OrderModifiedByNavigations { get; set; } = new List<Order>();
+
     public virtual ICollection<Product> ProductCreatedByNavigations { get; set; } = new List<Product>();
 
     public virtual ICollection<Product> ProductUpdatedByNavigations { get; set; } = new List<Product>();

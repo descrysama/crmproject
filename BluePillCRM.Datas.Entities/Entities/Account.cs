@@ -55,7 +55,11 @@ public partial class Account
 
     public virtual Address? DeliveryAddress { get; set; }
 
+    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+
     public virtual User? LastModifiedByNavigation { get; set; }
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual User Owner { get; set; } = null!;
 

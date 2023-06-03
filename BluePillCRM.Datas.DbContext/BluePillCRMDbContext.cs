@@ -27,6 +27,14 @@ public partial class BluePillCRMDbContext : DbContext
 
     public virtual DbSet<CrmConfig> CrmConfigs { get; set; }
 
+    public virtual DbSet<Invoice> Invoices { get; set; }
+
+    public virtual DbSet<InvoicesProduct> InvoicesProducts { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrdersProduct> OrdersProducts { get; set; }
+
     public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -36,6 +44,8 @@ public partial class BluePillCRMDbContext : DbContext
     public virtual DbSet<QuotesProduct> QuotesProducts { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<SendMethod> SendMethods { get; set; }
 
     public virtual DbSet<Taxis> Taxes { get; set; }
 
@@ -295,6 +305,373 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnName("updated_at");
         });
 
+        modelBuilder.Entity<Invoice>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("invoices");
+
+            entity.HasIndex(e => e.AccessLevel, "access_level");
+
+            entity.HasIndex(e => e.AccountId, "account_id");
+
+            entity.HasIndex(e => e.ContactId, "contact_id");
+
+            entity.HasIndex(e => e.CreatedBy, "created_by");
+
+            entity.HasIndex(e => e.OrdersId, "orders_id");
+
+            entity.HasIndex(e => e.PaymentMethod, "payment_method");
+
+            entity.HasIndex(e => e.SendMethodId, "send_method_id");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AccessLevel).HasColumnName("access_level");
+            entity.Property(e => e.AccountId).HasColumnName("account_id");
+            entity.Property(e => e.ContactId).HasColumnName("contact_id");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+            entity.Property(e => e.DiscountPercentage)
+                .HasPrecision(10)
+                .HasColumnName("discount_percentage");
+            entity.Property(e => e.EmailToSendAt)
+                .HasMaxLength(256)
+                .HasColumnName("email_to_send_at");
+            entity.Property(e => e.InvoiceDate)
+                .HasColumnType("datetime")
+                .HasColumnName("invoice_date");
+            entity.Property(e => e.InvoiceNumber)
+                .HasMaxLength(256)
+                .HasColumnName("invoice_number");
+            entity.Property(e => e.InvoiceStatus).HasColumnName("invoice_status");
+            entity.Property(e => e.OrdersId).HasColumnName("orders_id");
+            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
+            entity.Property(e => e.SendMethodId).HasColumnName("send_method_id");
+            entity.Property(e => e.TotalAmountWithTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_with_tax_with_discount");
+            entity.Property(e => e.TotalAmountWithoutTax)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax");
+            entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax_with_discount");
+            entity.Property(e => e.TotalTaxAmount)
+                .HasPrecision(10)
+                .HasColumnName("total_tax_amount");
+            entity.Property(e => e.TransactionCurrency)
+                .HasMaxLength(64)
+                .HasColumnName("transaction_currency");
+            entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+            entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.AccessLevel)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_5");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("invoices_ibfk_2");
+
+            entity.HasOne(d => d.Contact).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.ContactId)
+                .HasConstraintName("invoices_ibfk_3");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InvoiceCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_6");
+
+            entity.HasOne(d => d.Orders).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.OrdersId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_1");
+
+            entity.HasOne(d => d.PaymentMethodNavigation).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.PaymentMethod)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_4");
+
+            entity.HasOne(d => d.SendMethod).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.SendMethodId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_8");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.InvoiceUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_ibfk_7");
+        });
+
+        modelBuilder.Entity<InvoicesProduct>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("invoices_products");
+
+            entity.HasIndex(e => e.CreatedBy, "created_by");
+
+            entity.HasIndex(e => e.InvoicesId, "invoices_id");
+
+            entity.HasIndex(e => e.ProductId, "product_id");
+
+            entity.HasIndex(e => e.TaxesId, "taxes_id");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.Description)
+                .HasMaxLength(256)
+                .HasColumnName("description");
+            entity.Property(e => e.DiscountPercentage)
+                .HasPrecision(10)
+                .HasColumnName("discount_percentage");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.InvoicesId).HasColumnName("invoices_id");
+            entity.Property(e => e.OutOfCatalogProduct)
+                .HasMaxLength(256)
+                .HasColumnName("out_of_catalog_product");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
+            entity.Property(e => e.TotalAmountWithTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_with_tax_with_discount");
+            entity.Property(e => e.TotalAmountWithoutTax)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax");
+            entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax_with_discount");
+            entity.Property(e => e.TotalTaxAmount)
+                .HasPrecision(10)
+                .HasColumnName("total_tax_amount");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany()
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_products_ibfk_4");
+
+            entity.HasOne(d => d.Invoices).WithMany()
+                .HasForeignKey(d => d.InvoicesId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_products_ibfk_1");
+
+            entity.HasOne(d => d.Product).WithMany()
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("invoices_products_ibfk_2");
+
+            entity.HasOne(d => d.Taxes).WithMany()
+                .HasForeignKey(d => d.TaxesId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("invoices_products_ibfk_3");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany()
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("invoices_products_ibfk_5");
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("orders");
+
+            entity.HasIndex(e => e.AccessLevel, "access_level");
+
+            entity.HasIndex(e => e.AccountId, "account_id");
+
+            entity.HasIndex(e => e.ContactId, "contact_id");
+
+            entity.HasIndex(e => e.CreatedBy, "created_by");
+
+            entity.HasIndex(e => e.ModifiedBy, "modified_by");
+
+            entity.HasIndex(e => e.PaymentMethod, "payment_method");
+
+            entity.HasIndex(e => e.QuoteId, "quote_id");
+
+            entity.HasIndex(e => e.SendMethodId, "send_method_id");
+
+            entity.HasIndex(e => e.TaxesId, "taxes_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AccessLevel).HasColumnName("access_level");
+            entity.Property(e => e.AccountId).HasColumnName("account_id");
+            entity.Property(e => e.ContactId).HasColumnName("contact_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+            entity.Property(e => e.DiscountPercentage).HasColumnName("discount_percentage");
+            entity.Property(e => e.EmailToSendAt)
+                .HasMaxLength(256)
+                .HasColumnName("email_to_send_at");
+            entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
+            entity.Property(e => e.OrderDate)
+                .HasColumnType("datetime")
+                .HasColumnName("order_date");
+            entity.Property(e => e.OrderNumber)
+                .HasMaxLength(256)
+                .HasColumnName("order_number");
+            entity.Property(e => e.OrderStatus).HasColumnName("order_status");
+            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
+            entity.Property(e => e.QuoteId).HasColumnName("quote_id");
+            entity.Property(e => e.SendMethodId).HasColumnName("send_method_id");
+            entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
+            entity.Property(e => e.TotalAmountWithTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_with_tax_with_discount");
+            entity.Property(e => e.TotalAmountWithoutTax)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax");
+            entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax_with_discount");
+            entity.Property(e => e.TotalTaxAmount)
+                .HasPrecision(10)
+                .HasColumnName("total_tax_amount");
+            entity.Property(e => e.TransactionCurrency)
+                .HasMaxLength(256)
+                .HasColumnName("transaction_currency");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.AccessLevel)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ibfk_8");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("orders_ibfk_2");
+
+            entity.HasOne(d => d.Contact).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.ContactId)
+                .HasConstraintName("orders_ibfk_3");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.OrderCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ibfk_10");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.OrderModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("orders_ibfk_9");
+
+            entity.HasOne(d => d.PaymentMethodNavigation).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PaymentMethod)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ibfk_6");
+
+            entity.HasOne(d => d.Quote).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.QuoteId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ibfk_1");
+
+            entity.HasOne(d => d.SendMethod).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.SendMethodId)
+                .HasConstraintName("orders_ibfk_11");
+
+            entity.HasOne(d => d.Taxes).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.TaxesId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_ibfk_5");
+        });
+
+        modelBuilder.Entity<OrdersProduct>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("orders_products");
+
+            entity.HasIndex(e => e.CreatedBy, "created_by");
+
+            entity.HasIndex(e => e.OrdersId, "orders_id");
+
+            entity.HasIndex(e => e.ProductId, "product_id");
+
+            entity.HasIndex(e => e.TaxesId, "taxes_id");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.Description)
+                .HasMaxLength(256)
+                .HasColumnName("description");
+            entity.Property(e => e.DiscountPercentage)
+                .HasPrecision(10)
+                .HasColumnName("discount_percentage");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.OrdersId).HasColumnName("orders_id");
+            entity.Property(e => e.OutOfCatalogProduct)
+                .HasMaxLength(256)
+                .HasColumnName("out_of_catalog_product");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
+            entity.Property(e => e.TotalAmountWithTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_with_tax_with_discount");
+            entity.Property(e => e.TotalAmountWithoutTax)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax");
+            entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
+                .HasPrecision(10)
+                .HasColumnName("total_amount_without_tax_with_discount");
+            entity.Property(e => e.TotalTaxAmount)
+                .HasPrecision(10)
+                .HasColumnName("total_tax_amount");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany()
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_products_ibfk_4");
+
+            entity.HasOne(d => d.Orders).WithMany()
+                .HasForeignKey(d => d.OrdersId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_products_ibfk_1");
+
+            entity.HasOne(d => d.Product).WithMany()
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("orders_products_ibfk_2");
+
+            entity.HasOne(d => d.Taxes).WithMany()
+                .HasForeignKey(d => d.TaxesId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orders_products_ibfk_3");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany()
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("orders_products_ibfk_5");
+        });
+
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -367,6 +744,8 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.HasIndex(e => e.PaymentMethod, "payment_method");
 
+            entity.HasIndex(e => e.SendMethodId, "send_method_id");
+
             entity.HasIndex(e => e.TaxesId, "taxes_id");
 
             entity.HasIndex(e => e.UpdatedBy, "updated_by");
@@ -381,7 +760,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
-                .HasMaxLength(256)
+                .HasColumnType("text")
                 .HasColumnName("description");
             entity.Property(e => e.EmailSendTo).HasColumnName("email_send_to");
             entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
@@ -432,6 +811,10 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasForeignKey(d => d.PaymentMethod)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("quotes_ibfk_4");
+
+            entity.HasOne(d => d.SendMethod).WithMany(p => p.Quotes)
+                .HasForeignKey(d => d.SendMethodId)
+                .HasConstraintName("quotes_ibfk_8");
 
             entity.HasOne(d => d.Taxes).WithMany(p => p.Quotes)
                 .HasForeignKey(d => d.TaxesId)
@@ -523,6 +906,18 @@ public partial class BluePillCRMDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("roles");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(256)
+                .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<SendMethod>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("send_method");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
