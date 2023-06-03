@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace BluePillCRM.Datas.DbContext;
+
+public partial class Taxis
+{
+    public int Id { get; set; }
+
+    public float Percentage { get; set; }
+
+    public virtual ICollection<Quote> Quotes { get; set; } = new List<Quote>();
+
+    public virtual ICollection<QuotesProduct> QuotesProducts { get; set; } = new List<QuotesProduct>();
+}
