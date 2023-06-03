@@ -13,5 +13,7 @@ public partial class Role
 
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
+    public virtual ICollection<Quote> Quotes { get; set; } = new List<Quote>();
+
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

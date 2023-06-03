@@ -53,21 +53,25 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("accounts");
 
-            entity.HasIndex(e => e.AccessLevel, "access_level_roles");
+            entity.HasIndex(e => e.AccessLevel, "access_level");
 
-            entity.HasIndex(e => e.AccountType, "accounts_account_type");
+            entity.HasIndex(e => e.AccountType, "account_type");
 
-            entity.HasIndex(e => e.BillingAddressId, "accounts_billing_address");
+            entity.HasIndex(e => e.BillingAddressId, "billing_address_id");
 
-            entity.HasIndex(e => e.DeliveryAddressId, "accounts_delivery_address");
+            entity.HasIndex(e => e.CreatedBy, "created_by");
 
-            entity.HasIndex(e => e.PaymentMethodId, "accounts_payment_methods");
+            entity.HasIndex(e => e.DeliveryAddressId, "delivery_address_id");
+
+            entity.HasIndex(e => e.LastModifiedBy, "last_modified_by");
+
+            entity.HasIndex(e => e.OwnerId, "owner_id");
+
+            entity.HasIndex(e => e.PaymentMethodId, "payment_method_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AccessLevel).HasColumnName("access_level");
-            entity.Property(e => e.AccountType)
-                .HasDefaultValueSql("'1'")
-                .HasColumnName("account_type");
+            entity.Property(e => e.AccountType).HasColumnName("account_type");
             entity.Property(e => e.BillingAddressId).HasColumnName("billing_address_id");
             entity.Property(e => e.CompanyName)
                 .HasMaxLength(256)
@@ -107,24 +111,37 @@ public partial class BluePillCRMDbContext : DbContext
             entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.AccessLevel)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("access_level_roles");
+                .HasConstraintName("accounts_ibfk_6");
 
             entity.HasOne(d => d.AccountTypeNavigation).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.AccountType)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("accounts_account_type");
+                .HasConstraintName("accounts_ibfk_1");
 
             entity.HasOne(d => d.BillingAddress).WithMany(p => p.AccountBillingAddresses)
                 .HasForeignKey(d => d.BillingAddressId)
-                .HasConstraintName("accounts_billing_address");
+                .HasConstraintName("accounts_ibfk_4");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.AccountCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("accounts_ibfk_8");
 
             entity.HasOne(d => d.DeliveryAddress).WithMany(p => p.AccountDeliveryAddresses)
                 .HasForeignKey(d => d.DeliveryAddressId)
-                .HasConstraintName("accounts_delivery_address");
+                .HasConstraintName("accounts_ibfk_3");
+
+            entity.HasOne(d => d.LastModifiedByNavigation).WithMany(p => p.AccountLastModifiedByNavigations)
+                .HasForeignKey(d => d.LastModifiedBy)
+                .HasConstraintName("accounts_ibfk_7");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.AccountOwners)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("accounts_ibfk_5");
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.PaymentMethodId)
-                .HasConstraintName("accounts_payment_methods");
+                .HasConstraintName("accounts_ibfk_2");
         });
 
         modelBuilder.Entity<AccountType>(entity =>
@@ -144,16 +161,6 @@ public partial class BluePillCRMDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("address");
-
-            entity.HasIndex(e => e.AccessLevel, "address_access_level");
-
-            entity.HasIndex(e => e.CountryId, "address_country_id");
-
-            entity.HasIndex(e => e.CreatedBy, "address_created_by");
-
-            entity.HasIndex(e => e.ModifiedBy, "address_modified_by");
-
-            entity.HasIndex(e => e.UserId, "address_user_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AccessLevel).HasColumnName("access_level");
@@ -177,31 +184,6 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.AddressAccessLevelNavigations)
-                .HasForeignKey(d => d.AccessLevel)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("address_access_level");
-
-            entity.HasOne(d => d.Country).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.CountryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("address_country_id");
-
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.AddressCreatedByNavigations)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("address_created_by");
-
-            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.AddressModifiedByNavigations)
-                .HasForeignKey(d => d.ModifiedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("address_modified_by");
-
-            entity.HasOne(d => d.User).WithMany(p => p.AddressUsers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("address_user_id");
         });
 
         modelBuilder.Entity<Contact>(entity =>
@@ -210,13 +192,15 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("contacts");
 
-            entity.HasIndex(e => e.AccessLevel, "contact_access_level_roles");
+            entity.HasIndex(e => e.AccessLevel, "access_level");
 
-            entity.HasIndex(e => e.CreatedBy, "contact_created_by");
+            entity.HasIndex(e => e.AccountId, "account_id");
 
-            entity.HasIndex(e => e.OwnerId, "contact_owner_id");
+            entity.HasIndex(e => e.CreatedBy, "created_by");
 
-            entity.HasIndex(e => e.ModifiedBy, "contact_updated_by");
+            entity.HasIndex(e => e.ModifiedBy, "modified_by");
+
+            entity.HasIndex(e => e.OwnerId, "owner_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AccessLevel).HasColumnName("access_level");
@@ -249,21 +233,26 @@ public partial class BluePillCRMDbContext : DbContext
             entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.Contacts)
                 .HasForeignKey(d => d.AccessLevel)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("contact_access_level_roles");
+                .HasConstraintName("contacts_ibfk_3");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.Contacts)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("contacts_ibfk_1");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ContactCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("contact_created_by");
+                .HasConstraintName("contacts_ibfk_4");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.ContactModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
-                .HasConstraintName("contact_updated_by");
+                .HasConstraintName("contacts_ibfk_5");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.ContactOwners)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("contact_owner_id");
+                .HasConstraintName("contacts_ibfk_2");
         });
 
         modelBuilder.Entity<Country>(entity =>
@@ -324,6 +313,10 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("products");
 
+            entity.HasIndex(e => e.CreatedBy, "created_by");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -347,6 +340,15 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.ProductCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("products_ibfk_2");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.ProductUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("products_ibfk_1");
         });
 
         modelBuilder.Entity<Quote>(entity =>
@@ -355,15 +357,19 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("quotes");
 
-            entity.HasIndex(e => e.AccessLevel, "quotes_access_level");
+            entity.HasIndex(e => e.AccessLevel, "access_level");
 
-            entity.HasIndex(e => e.AccountId, "quotes_account_id");
+            entity.HasIndex(e => e.AccountId, "account_id");
 
-            entity.HasIndex(e => e.ContactId, "quotes_contact_id");
+            entity.HasIndex(e => e.ContactId, "contact_id");
 
-            entity.HasIndex(e => e.Payment, "quotes_payment_methods");
+            entity.HasIndex(e => e.CreatedBy, "created_by");
 
-            entity.HasIndex(e => e.TaxesId, "quotes_taxes");
+            entity.HasIndex(e => e.PaymentMethod, "payment_method");
+
+            entity.HasIndex(e => e.TaxesId, "taxes_id");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AccessLevel).HasColumnName("access_level");
@@ -373,14 +379,12 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.CreatedBy)
-                .HasColumnType("datetime")
-                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.Description)
                 .HasMaxLength(256)
                 .HasColumnName("description");
             entity.Property(e => e.EmailSendTo).HasColumnName("email_send_to");
-            entity.Property(e => e.Payment).HasColumnName("payment");
+            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
             entity.Property(e => e.QuoteNumber)
                 .HasMaxLength(256)
                 .HasColumnName("quote_number");
@@ -403,33 +407,40 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
-            entity.Property(e => e.UpdatedBy)
-                .HasColumnType("datetime")
-                .HasColumnName("updated_by");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
             entity.HasOne(d => d.AccessLevelNavigation).WithMany(p => p.Quotes)
                 .HasForeignKey(d => d.AccessLevel)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_access_level");
+                .HasConstraintName("quotes_ibfk_5");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Quotes)
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_account_id");
+                .HasConstraintName("quotes_ibfk_1");
 
             entity.HasOne(d => d.Contact).WithMany(p => p.Quotes)
                 .HasForeignKey(d => d.ContactId)
-                .HasConstraintName("quotes_contact_id");
+                .HasConstraintName("quotes_ibfk_2");
 
-            entity.HasOne(d => d.PaymentNavigation).WithMany(p => p.Quotes)
-                .HasForeignKey(d => d.Payment)
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.QuoteCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_payment_methods");
+                .HasConstraintName("quotes_ibfk_6");
+
+            entity.HasOne(d => d.PaymentMethodNavigation).WithMany(p => p.Quotes)
+                .HasForeignKey(d => d.PaymentMethod)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("quotes_ibfk_4");
 
             entity.HasOne(d => d.Taxes).WithMany(p => p.Quotes)
                 .HasForeignKey(d => d.TaxesId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_taxes");
+                .HasConstraintName("quotes_ibfk_3");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.QuoteUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("quotes_ibfk_7");
         });
 
         modelBuilder.Entity<QuotesProduct>(entity =>
@@ -438,11 +449,15 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("quotes_products");
 
-            entity.HasIndex(e => e.ProductId, "quotes_products_products");
+            entity.HasIndex(e => e.CreatedBy, "created_by");
 
-            entity.HasIndex(e => e.QuoteId, "quotes_products_quotes");
+            entity.HasIndex(e => e.ProductId, "product_id");
 
-            entity.HasIndex(e => e.TaxesId, "quotes_products_taxes");
+            entity.HasIndex(e => e.QuoteId, "quote_id");
+
+            entity.HasIndex(e => e.TaxesId, "taxes_id");
+
+            entity.HasIndex(e => e.UpdatedBy, "updated_by");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
@@ -479,19 +494,28 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnName("updated_at");
             entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.QuotesProductCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("quotes_products_ibfk_6");
+
             entity.HasOne(d => d.Product).WithMany(p => p.QuotesProducts)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("quotes_products_products");
+                .HasConstraintName("quotes_products_ibfk_2");
 
             entity.HasOne(d => d.Quote).WithMany(p => p.QuotesProducts)
                 .HasForeignKey(d => d.QuoteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_products_quotes");
+                .HasConstraintName("quotes_products_ibfk_1");
 
             entity.HasOne(d => d.Taxes).WithMany(p => p.QuotesProducts)
                 .HasForeignKey(d => d.TaxesId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("quotes_products_taxes");
+                .HasConstraintName("quotes_products_ibfk_5");
+
+            entity.HasOne(d => d.UpdatedByNavigation).WithMany(p => p.QuotesProductUpdatedByNavigations)
+                .HasForeignKey(d => d.UpdatedBy)
+                .HasConstraintName("quotes_products_ibfk_7");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -522,7 +546,7 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => e.RoleId, "users_roles");
+            entity.HasIndex(e => e.RoleId, "role_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
@@ -538,6 +562,9 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(256)
                 .HasColumnName("name");
+            entity.Property(e => e.Password)
+                .HasMaxLength(256)
+                .HasColumnName("password");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.Title)
                 .HasMaxLength(256)
@@ -552,7 +579,7 @@ public partial class BluePillCRMDbContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("users_roles");
+                .HasConstraintName("users_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

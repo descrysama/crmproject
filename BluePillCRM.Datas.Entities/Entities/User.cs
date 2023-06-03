@@ -11,6 +11,8 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
+    public string Password { get; set; } = null!;
+
     public string Name { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
@@ -23,13 +25,11 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<Address> AddressAccessLevelNavigations { get; set; } = new List<Address>();
+    public virtual ICollection<Account> AccountCreatedByNavigations { get; set; } = new List<Account>();
 
-    public virtual ICollection<Address> AddressCreatedByNavigations { get; set; } = new List<Address>();
+    public virtual ICollection<Account> AccountLastModifiedByNavigations { get; set; } = new List<Account>();
 
-    public virtual ICollection<Address> AddressModifiedByNavigations { get; set; } = new List<Address>();
-
-    public virtual ICollection<Address> AddressUsers { get; set; } = new List<Address>();
+    public virtual ICollection<Account> AccountOwners { get; set; } = new List<Account>();
 
     public virtual ICollection<Contact> ContactCreatedByNavigations { get; set; } = new List<Contact>();
 
@@ -37,7 +37,17 @@ public partial class User
 
     public virtual ICollection<Contact> ContactOwners { get; set; } = new List<Contact>();
 
-    public virtual ICollection<Quote> Quotes { get; set; } = new List<Quote>();
+    public virtual ICollection<Product> ProductCreatedByNavigations { get; set; } = new List<Product>();
+
+    public virtual ICollection<Product> ProductUpdatedByNavigations { get; set; } = new List<Product>();
+
+    public virtual ICollection<Quote> QuoteCreatedByNavigations { get; set; } = new List<Quote>();
+
+    public virtual ICollection<Quote> QuoteUpdatedByNavigations { get; set; } = new List<Quote>();
+
+    public virtual ICollection<QuotesProduct> QuotesProductCreatedByNavigations { get; set; } = new List<QuotesProduct>();
+
+    public virtual ICollection<QuotesProduct> QuotesProductUpdatedByNavigations { get; set; } = new List<QuotesProduct>();
 
     public virtual Role Role { get; set; } = null!;
 }

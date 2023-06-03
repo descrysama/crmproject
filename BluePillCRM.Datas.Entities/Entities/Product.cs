@@ -25,5 +25,9 @@ public partial class Product
 
     public DateTime CreatedAt { get; set; }
 
+    public virtual User CreatedByNavigation { get; set; } = null!;
+
     public virtual ICollection<QuotesProduct> QuotesProducts { get; set; } = new List<QuotesProduct>();
+
+    public virtual User? UpdatedByNavigation { get; set; }
 }

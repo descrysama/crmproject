@@ -35,9 +35,13 @@ public partial class QuotesProduct
 
     public DateTime CreatedAt { get; set; }
 
+    public virtual User CreatedByNavigation { get; set; } = null!;
+
     public virtual Product? Product { get; set; }
 
     public virtual Quote Quote { get; set; } = null!;
 
     public virtual Taxis Taxes { get; set; } = null!;
+
+    public virtual User? UpdatedByNavigation { get; set; }
 }

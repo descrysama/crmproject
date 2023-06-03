@@ -19,7 +19,7 @@ public partial class Account
 
     public string? WebsiteUrl { get; set; }
 
-    public int AccountType { get; set; }
+    public int? AccountType { get; set; }
 
     public int? PaymentMethodId { get; set; }
 
@@ -45,11 +45,19 @@ public partial class Account
 
     public virtual Role AccessLevelNavigation { get; set; } = null!;
 
-    public virtual AccountType AccountTypeNavigation { get; set; } = null!;
+    public virtual AccountType? AccountTypeNavigation { get; set; }
 
     public virtual Address? BillingAddress { get; set; }
 
+    public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+
+    public virtual User CreatedByNavigation { get; set; } = null!;
+
     public virtual Address? DeliveryAddress { get; set; }
+
+    public virtual User? LastModifiedByNavigation { get; set; }
+
+    public virtual User Owner { get; set; } = null!;
 
     public virtual PaymentMethod? PaymentMethod { get; set; }
 

@@ -35,6 +35,8 @@ public partial class Contact
 
     public virtual Role AccessLevelNavigation { get; set; } = null!;
 
+    public virtual Account Account { get; set; } = null!;
+
     public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual User? ModifiedByNavigation { get; set; }

@@ -27,17 +27,7 @@ public partial class Address
 
     public int CreatedBy { get; set; }
 
-    public virtual User AccessLevelNavigation { get; set; } = null!;
-
     public virtual ICollection<Account> AccountBillingAddresses { get; set; } = new List<Account>();
 
     public virtual ICollection<Account> AccountDeliveryAddresses { get; set; } = new List<Account>();
-
-    public virtual Country Country { get; set; } = null!;
-
-    public virtual User CreatedByNavigation { get; set; } = null!;
-
-    public virtual User ModifiedByNavigation { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
 }

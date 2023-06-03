@@ -23,7 +23,7 @@ public partial class Quote
 
     public int TaxesId { get; set; }
 
-    public int Payment { get; set; }
+    public int PaymentMethod { get; set; }
 
     public decimal TotalWithoutTaxWithDiscount { get; set; }
 
@@ -37,23 +37,27 @@ public partial class Quote
 
     public int AccessLevel { get; set; }
 
-    public DateTime? UpdatedBy { get; set; }
+    public int? UpdatedBy { get; set; }
 
-    public DateTime CreatedBy { get; set; }
+    public int CreatedBy { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    public virtual User AccessLevelNavigation { get; set; } = null!;
+    public virtual Role AccessLevelNavigation { get; set; } = null!;
 
     public virtual Account Account { get; set; } = null!;
 
     public virtual Contact? Contact { get; set; }
 
-    public virtual PaymentMethod PaymentNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
+
+    public virtual PaymentMethod PaymentMethodNavigation { get; set; } = null!;
 
     public virtual ICollection<QuotesProduct> QuotesProducts { get; set; } = new List<QuotesProduct>();
 
     public virtual Taxis Taxes { get; set; } = null!;
+
+    public virtual User? UpdatedByNavigation { get; set; }
 }
