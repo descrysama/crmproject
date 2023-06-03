@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Application.WebApi", "BluePillCRM.Application.WebApi\BluePillCRM.Application.WebApi.csproj", "{C9FC7C25-F241-4F1A-9E93-9BEBA64C2D96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Datas.BluePillDbContext", "BluePillCRM.Datas.DbContext\BluePillCRM.Datas.BluePillDbContext.csproj", "{1F27F8B7-3F85-4F19-8854-EAA84AE943D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Datas.DbContext", "BluePillCRM.Datas.DbContext\BluePillCRM.Datas.DbContext.csproj", "{1F27F8B7-3F85-4F19-8854-EAA84AE943D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Datas.Entities", "BluePillCRM.Datas.Entities\BluePillCRM.Datas.Entities.csproj", "{AF9A0F54-9766-47E4-BAA5-1C7AD2E62CE8}"
 EndProject
