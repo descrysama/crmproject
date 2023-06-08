@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BluePillCRM.Datas.DbContext;
+namespace BluePillCRM.Datas.Entities;
 
 public partial class SendMethod
 {
