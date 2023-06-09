@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BluePillCRM.Datas.DbContext\BluePillCRM.Datas.DbContext.csproj" />
-  </ItemGroup>
-
 </Project>
