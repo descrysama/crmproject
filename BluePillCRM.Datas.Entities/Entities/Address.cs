@@ -15,15 +15,13 @@ public partial class Address
 
     public int CountryId { get; set; }
 
-    public int UserId { get; set; }
-
     public int AccessLevel { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public int ModifiedBy { get; set; }
+    public int? ModifiedBy { get; set; }
 
     public int CreatedBy { get; set; }
 
