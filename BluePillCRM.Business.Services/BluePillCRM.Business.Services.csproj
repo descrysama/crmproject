@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BluePillCRM.Business.Dtos\BluePillCRM.Business.Dtos.csproj" />
     <ProjectReference Include="..\BluePillCRM.Business.Repository\BluePillCRM.Business.Repository.csproj" />
   </ItemGroup>

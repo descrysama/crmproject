@@ -15,9 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Business.Repository", "BluePillCRM.Business.Repository\BluePillCRM.Business.Repository.csproj", "{49D899D2-6187-4A18-81D1-FDB792026626}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BluePillCRM.Business.Services", "BluePillCRM.Business.Services\BluePillCRM.Business.Services.csproj", "{66427128-32FF-4A3B-BAD1-852CE29A4796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Business.Services", "BluePillCRM.Business.Services\BluePillCRM.Business.Services.csproj", "{66427128-32FF-4A3B-BAD1-852CE29A4796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BluePillCRM.Business.Dtos", "BluePillCRM.Business.Dtos\BluePillCRM.Business.Dtos.csproj", "{F50B1C92-E17F-468F-AFAB-B0CEFC9542F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluePillCRM.Business.Dtos", "BluePillCRM.Business.Dtos\BluePillCRM.Business.Dtos.csproj", "{F50B1C92-E17F-468F-AFAB-B0CEFC9542F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BluePillCRM.Application.Ioc", "BluePillCRM.Application.Ioc\BluePillCRM.Application.Ioc.csproj", "{C55E271A-A789-463D-A830-CD6448045A14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{F50B1C92-E17F-468F-AFAB-B0CEFC9542F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F50B1C92-E17F-468F-AFAB-B0CEFC9542F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F50B1C92-E17F-468F-AFAB-B0CEFC9542F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55E271A-A789-463D-A830-CD6448045A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55E271A-A789-463D-A830-CD6448045A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55E271A-A789-463D-A830-CD6448045A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55E271A-A789-463D-A830-CD6448045A14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

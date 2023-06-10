@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BluePillCRM.Business.Repository\BluePillCRM.Business.Repository.csproj" />
+    <ProjectReference Include="..\BluePillCRM.Business.Services\BluePillCRM.Business.Services.csproj" />
     <ProjectReference Include="..\BluePillCRM.Datas.DbContext\BluePillCRM.Datas.DbContext.csproj" />
-    <ProjectReference Include="..\BluePillCRM.Datas.Entities\BluePillCRM.Datas.Entities.csproj" />
   </ItemGroup>
 
 </Project>

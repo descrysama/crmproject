@@ -53,10 +53,15 @@ public partial class BluePillCRMDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("Server=localhost;Database=bluepillcrm;Port=3306;User Id=root;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;database=bluepillcrm;port=3306;user id=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .UseCollation("utf8mb4_unicode_ci")
+            .HasCharSet("utf8mb4");
+
         modelBuilder.Entity<Account>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -172,6 +177,8 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.ToTable("address");
 
+            entity.HasIndex(e => e.CountryId, "address");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AccessLevel).HasColumnName("access_level");
             entity.Property(e => e.City)
@@ -193,6 +200,11 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.Addresses)
+                .HasForeignKey(d => d.CountryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("address_ibfk_1");
         });
 
         modelBuilder.Entity<Contact>(entity =>
@@ -287,6 +299,7 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.MaxAccounts).HasColumnName("max_accounts");
@@ -950,6 +963,7 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(256)
                 .HasColumnName("email");
+            entity.Property(e => e.IsDisabled).HasColumnName("is_disabled");
             entity.Property(e => e.LastName)
                 .HasMaxLength(256)
                 .HasColumnName("last_name");

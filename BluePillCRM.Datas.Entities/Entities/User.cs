@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
 namespace BluePillCRM.Datas.Entities;
 
 public partial class User
@@ -18,6 +20,8 @@ public partial class User
     public string Title { get; set; } = null!;
 
     public int RoleId { get; set; }
+
+    public bool IsDisabled { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

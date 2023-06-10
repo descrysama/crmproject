@@ -8,7 +8,7 @@ namespace BluePillCRM.Business.Repository
     {
         protected readonly BluePillCRMDbContext _bluePillCRMDbContext;
 
-        private readonly DbSet<T> _table;
+        protected readonly DbSet<T> _table;
 
         protected GenericRepository(BluePillCRMDbContext bluePillCRMDbContext)
         {

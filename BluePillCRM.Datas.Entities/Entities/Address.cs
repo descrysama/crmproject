@@ -28,4 +28,6 @@ public partial class Address
     public virtual ICollection<Account> AccountBillingAddresses { get; set; } = new List<Account>();
 
     public virtual ICollection<Account> AccountDeliveryAddresses { get; set; } = new List<Account>();
+
+    public virtual Country Country { get; set; } = null!;
 }
