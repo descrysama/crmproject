@@ -7,20 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <Compile Remove="Controllers\NewFolder\**" />
+    <Content Remove="Controllers\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\NewFolder\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\BluePillCRM.Application.Ioc\BluePillCRM.Application.Ioc.csproj" />
+    <ProjectReference Include="..\BluePillCRM.Business.Dtos\BluePillCRM.Business.Dtos.csproj" />
     <ProjectReference Include="..\BluePillCRM.Business.Repository\BluePillCRM.Business.Repository.csproj" />
     <ProjectReference Include="..\BluePillCRM.Business.Services\BluePillCRM.Business.Services.csproj" />
   </ItemGroup>

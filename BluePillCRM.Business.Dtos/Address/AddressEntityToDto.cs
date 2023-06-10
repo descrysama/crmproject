@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BluePillCRM.Business.Dtos
 {
-    internal class entityToDto
+    internal class AddressEntityToDto
     {
     }
 }

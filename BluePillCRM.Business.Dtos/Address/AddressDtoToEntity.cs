@@ -2,7 +2,7 @@
 
 namespace BluePillCRM.Business.Dtos
 {
-    public class dtoToEntity
+    public class AddressDtoToEntity
     {
         public static Address createAddressMapper(createAddress createAddress)
         {

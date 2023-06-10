@@ -1,11 +1,10 @@
 ﻿using BluePillCRM.Business.Repository;
-using BluePillCRM.Business.Services;
 using BluePillCRM.Datas;
+using BluePillCRM.Business.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 
 namespace BluePillCRM.Application.Ioc
 {
@@ -16,6 +15,7 @@ namespace BluePillCRM.Application.Ioc
         {
 
             services.AddScoped<AddressRepository>();
+            services.AddScoped<UserRepository>();
 
             return services;
         }
@@ -24,7 +24,7 @@ namespace BluePillCRM.Application.Ioc
         public static IServiceCollection ConfigureInjectionDependencyService(this IServiceCollection services)
         {
             services.AddScoped<AddressService>();
-
+            services.AddScoped<UserService>();
             return services;
         }
 

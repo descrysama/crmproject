@@ -30,7 +30,7 @@ namespace BluePillCRM.Business.Services
         {
             try
             {
-                return await _addressRepository.Insert(dtoToEntity.createAddressMapper(addressToCreate)).ConfigureAwait(false);
+                return await _addressRepository.Insert(AddressDtoToEntity.createAddressMapper(addressToCreate)).ConfigureAwait(false);
             } catch
             {
                 throw new Exception("Une erreur s'est produite. Adresse non crée, veuillez verifier vos entrées.");
@@ -42,7 +42,7 @@ namespace BluePillCRM.Business.Services
         {
             try
             {
-                return await _addressRepository.Update(dtoToEntity.updateAddressMapper(addressToUpdate)).ConfigureAwait(false);
+                return await _addressRepository.Update(AddressDtoToEntity.updateAddressMapper(addressToUpdate)).ConfigureAwait(false);
             }
             catch
             {
@@ -55,7 +55,7 @@ namespace BluePillCRM.Business.Services
         {
             try
             {
-                return await _addressRepository.Delete(dtoToEntity.deleteAddressMapper(addressId)).ConfigureAwait(false);
+                return await _addressRepository.Delete(AddressDtoToEntity.deleteAddressMapper(addressId)).ConfigureAwait(false);
             }
             catch
             {
