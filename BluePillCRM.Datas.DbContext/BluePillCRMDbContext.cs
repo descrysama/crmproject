@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BluePillCRM.Datas.Entities;
 using Microsoft.EntityFrameworkCore;
+using BluePillCRM.Datas.Entities;
 
 namespace BluePillCRM.Datas;
 
@@ -299,6 +299,7 @@ public partial class BluePillCRMDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.MaxAccounts).HasColumnName("max_accounts");

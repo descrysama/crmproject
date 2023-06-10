@@ -13,7 +13,8 @@ namespace BluePillCRM.Application.Ioc
 
         public static IServiceCollection ConfigureInjectionDependencyRepository(this IServiceCollection services)
         {
-
+            
+            services.AddScoped<CrmConfigRepository>();
             services.AddScoped<AddressRepository>();
             services.AddScoped<UserRepository>();
 
@@ -23,8 +24,10 @@ namespace BluePillCRM.Application.Ioc
 
         public static IServiceCollection ConfigureInjectionDependencyService(this IServiceCollection services)
         {
+            services.AddScoped<CrmConfigService>();
             services.AddScoped<AddressService>();
             services.AddScoped<UserService>();
+
             return services;
         }
 

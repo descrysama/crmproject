@@ -11,6 +11,12 @@ namespace BluePillCRM.Business.Repository
         {
         }
 
+        public async Task<int> CountTotalUsers()
+        {
+            int type = await _table.CountAsync();
+            return type;
+        }
+
         public async Task<User> FindOneByEmail(string email)
         {
             User type = await _table.FirstOrDefaultAsync(u => u.Email == email && u.IsDisabled == false);

@@ -14,16 +14,16 @@ namespace Api.OnlineShop.Controllers;
 public class UserController : ControllerBase
 {
 
-    private readonly AddressService _addressService;
-
     private readonly UserService _userService;
+
+    private readonly CrmConfigService _crmConfigService;
 
     private readonly IConfiguration _configuration;
 
-    public UserController(UserService userService, AddressService addressService, IConfiguration configuration)
+    public UserController(UserService userService, CrmConfigService crmConfigService, IConfiguration configuration)
     {
         _userService = userService;
-        _addressService = addressService;
+        _crmConfigService = crmConfigService;
         _configuration = configuration;
     }
 
@@ -35,7 +35,8 @@ public class UserController : ControllerBase
         {
             int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             User checkUserRole = await _userService.FindOneById(userId);
-            if(checkUserRole.RoleId > 1) 
+            bool IsAllowedToCreate = await _crmConfigService.IsAllowedToCreateUser();
+            if (checkUserRole.RoleId > 1 || checkUserRole.RoleId > 3 || !IsAllowedToCreate) 
             {
                 return StatusCode(500, new { message = "Vous ne pouvez pas créer d'utilisateur supplémentaires. Veuillez consulter l'administrateur CRM." });
             }
