@@ -41,6 +41,11 @@ public class UserController : ControllerBase
                 return StatusCode(500, new { message = "Vous ne pouvez pas créer d'utilisateur supplémentaires. Veuillez consulter l'administrateur CRM." });
             }
 
+            if(createUser.RoleId == 1) 
+            {
+                return StatusCode(500, new { message = "Modifier le role de l'utilisateur." });
+            }
+
             User createdUser = await _userService.CreateUser(createUser).ConfigureAwait(false);
 
             var cookieOptions = new CookieOptions
