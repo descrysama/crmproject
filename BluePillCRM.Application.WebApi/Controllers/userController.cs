@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace Api.OnlineShop.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("auth")]
 public class UserController : ControllerBase
 {
 
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
             int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             User checkUserRole = await _userService.FindOneById(userId);
             bool IsAllowedToCreate = await _crmConfigService.IsAllowedToCreateUser();
-            if (checkUserRole.RoleId > 1 || checkUserRole.RoleId > 3 || !IsAllowedToCreate) 
+            if (checkUserRole.RoleId > 3 && checkUserRole.RoleId != 1 || !IsAllowedToCreate && checkUserRole.RoleId != 1) 
             {
                 return StatusCode(500, new { message = "Vous ne pouvez pas créer d'utilisateur supplémentaires. Veuillez consulter l'administrateur CRM." });
             }
