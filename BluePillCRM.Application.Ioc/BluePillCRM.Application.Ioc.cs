@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using BluePillCRM.Business.Services.Utilities;
 
 namespace BluePillCRM.Application.Ioc
 {
@@ -27,6 +28,7 @@ namespace BluePillCRM.Application.Ioc
             services.AddScoped<CrmConfigService>();
             services.AddScoped<AddressService>();
             services.AddScoped<UserService>();
+            services.AddScoped<UserUtilities>();
 
             return services;
         }

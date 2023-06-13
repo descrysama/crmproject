@@ -10,18 +10,21 @@ using System.Security.Claims;
 namespace Api.OnlineShop.Controllers;
 
 [ApiController]
-[Route("auth")]
+[Route("user")]
 public class UserController : ControllerBase
 {
 
     private readonly UserService _userService;
 
+    private readonly UserUtilities _userUtilities;
+
     private readonly CrmConfigService _crmConfigService;
 
     private readonly IConfiguration _configuration;
 
-    public UserController(UserService userService, CrmConfigService crmConfigService, IConfiguration configuration)
+    public UserController(UserService userService, CrmConfigService crmConfigService, UserUtilities userUtilities, IConfiguration configuration)
     {
+        _userUtilities = userUtilities;
         _userService = userService;
         _crmConfigService = crmConfigService;
         _configuration = configuration;
@@ -33,10 +36,9 @@ public class UserController : ControllerBase
     {
         try
         {
-            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            User checkUserRole = await _userService.FindOneById(userId);
+            int userRole = await _userUtilities.CheckUserRole(Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
             bool IsAllowedToCreate = await _crmConfigService.IsAllowedToCreateUser();
-            if (checkUserRole.RoleId > 3 && checkUserRole.RoleId != 1 || !IsAllowedToCreate && checkUserRole.RoleId != 1) 
+            if (userRole > 3 && userRole != 1 || !IsAllowedToCreate && userRole != 1) 
             {
                 return StatusCode(500, new { message = "Vous ne pouvez pas créer d'utilisateur supplémentaires. Veuillez consulter l'administrateur CRM." });
             }
@@ -73,7 +75,11 @@ public class UserController : ControllerBase
             User user = await _userService.FindOneByEmail(signInUser.Email.ToString()).ConfigureAwait(false);
             if(user == null)
             {
-                return StatusCode(500, new { message = "Email et/ou password incorrects" });
+                return StatusCode(500, new { message = "Email et/ou password incorrect(s)" });
+            }
+            if(user.IsDisabled == true)
+            {
+                return StatusCode(500, new { message = "Votre compte a été desactivé. Veuillez contacter votre supérieur." });
             }
 
             bool checkIfPasswordMatch = PasswordHandler.VerifyPassword(signInUser.Password, user.Password);
@@ -91,11 +97,58 @@ public class UserController : ControllerBase
                 return Ok(UserEntityToDto.ReadUserMapper(user));
             } else
             {
-                return StatusCode(500, new { message = "Email et/ou password incorrects" });
+                return StatusCode(500, new { message = "Email et/ou password incorrect(s) " });
             }
 
         }
         catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message });
+        }
+    }
+
+    [Authorize]
+    [HttpPatch()]
+    public async Task<IActionResult> Update(UpdateUser updateUser)
+    {
+        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        int userRole = await _userUtilities.CheckUserRole(userId);
+        bool targetUserExists = await _userService.CheckIfExists(updateUser.Id);
+
+        if (targetUserExists)
+        {
+            if (userRole <= 3)
+            {
+                return Ok(await _userService.UpdateUser(updateUser));
+            } else
+            {
+                return BadRequest("Vous ne pouvez pas mettre à jour cet utilisateur.");
+            }
+            
+        } else 
+        { 
+            return BadRequest("L'utilisteur n'existe pas."); 
+        }
+    }
+
+    [Authorize]
+    [HttpPost("disable/{id}")]
+    public async Task<IActionResult> Disable([FromRoute] int id)
+    {
+        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        int userRole = await _userUtilities.CheckUserRole(userId);
+
+        try
+        {
+            User disabledUser = await _userService.DisableUser(id, userRole);
+
+            if (disabledUser != null)
+            {
+                return Ok(disabledUser);
+            }
+            return BadRequest("L'utilisateur n'a pas pu être desactiver.");
+
+        } catch (Exception ex)
         {
             return StatusCode(500, new { message = ex.Message });
         }

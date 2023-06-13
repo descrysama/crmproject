@@ -20,27 +20,35 @@ namespace BluePillCRM.Business.Dtos
             return user;
         }
 
-        public static User updateUserMapper(updateUser updateUser)
+        public static User updateUserMapper(UpdateUser updateUser)
         {
             User user = new User()
             {
+                Id = updateUser.Id,
                 Username = updateUser.Username,
                 Email = updateUser.Email,
-                Password = updateUser.Password,
                 Name = updateUser.Name,
+                RoleId = updateUser.RoleId,
+                Password = updateUser.Password,
                 LastName = updateUser.LastName,
-                Title = updateUser.Title,
-                RoleId = updateUser.RoleId
+                Title = updateUser.Title
             };
 
             return user;
         }
 
-        public static User deleteUserMapper(int Id)
+        public static User deleteUserMapper(User userToDisable)
         {
             User user = new User()
             {
-                Id = Id,
+                Id = userToDisable.Id,
+                Username = userToDisable.Username,
+                Email = userToDisable.Email,
+                Password = userToDisable.Password,
+                Title = userToDisable.Title,
+                Name = userToDisable.Name,
+                LastName= userToDisable.LastName,
+                RoleId = userToDisable.RoleId,
                 IsDisabled = true 
             };
 

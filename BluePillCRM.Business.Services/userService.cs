@@ -49,18 +49,32 @@ namespace BluePillCRM.Business.Services
 
         }
 
-        public async Task<User> UpdateUser(updateUser userToUpdate)
+        public async Task<User> UpdateUser(UpdateUser userToUpdate)
         {
-            User user = await _userRepository.Insert(UserDtoToEntity.updateUserMapper(userToUpdate)).ConfigureAwait(false);
+            User oldUser = await _userRepository.GetById(userToUpdate.Id).ConfigureAwait(false);
+            userToUpdate.RoleId = oldUser.RoleId;
+            userToUpdate.Password = oldUser.Password;
+            _userRepository.RemoveTrack(oldUser);
+            User user = await _userRepository.Update(UserDtoToEntity.updateUserMapper(userToUpdate)).ConfigureAwait(false);
             return user;
         }
 
-
-
-        public async Task<User> DisableUser(int id)
+        public async Task<bool> CheckIfExists(int id)
         {
-            User user = await _userRepository.Update(UserDtoToEntity.deleteUserMapper(id)).ConfigureAwait(false);
-            return user;
+            return await _userRepository.CheckIfExists(id).ConfigureAwait(false);
+        }
+
+        public async Task<User> DisableUser(int id, int RoleId)
+        {
+            User oldUser = await _userRepository.GetById(id).ConfigureAwait(false);
+            if(oldUser.RoleId > RoleId)
+            {
+                _userRepository.RemoveTrack(oldUser);
+                User user = await _userRepository.Update(UserDtoToEntity.deleteUserMapper(oldUser)).ConfigureAwait(false);
+                return user;
+            }
+
+            throw new Exception("Vous ne pouvez pas supprimer ou desactiver un compte ayant un niveau d'accès supérieur au votre.");
         }
     }
 }
