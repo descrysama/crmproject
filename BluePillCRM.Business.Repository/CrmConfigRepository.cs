@@ -21,7 +21,15 @@ namespace BluePillCRM.Business.Repository
 
             if (element == null)
             {
-                throw new Exception("Element non trouvé.");
+                CrmConfig config = new CrmConfig();
+                config.Id = 1;
+                config.MaxUsers = 0;
+                config.MaxAccounts = 0;
+                config.MaxContacts = 0;
+                config.MonthlyCost = 0;
+                config.Title = "none";
+                config.RoleId = 1;
+                return config;
             }
 
             return element;

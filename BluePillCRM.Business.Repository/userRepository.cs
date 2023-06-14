@@ -13,7 +13,7 @@ namespace BluePillCRM.Business.Repository
 
         public async Task<int> CountTotalUsers()
         {
-            int type = await _table.CountAsync();
+            int type = await _table.Where(e => e.RoleId != 1).CountAsync();
             return type;
         }
 

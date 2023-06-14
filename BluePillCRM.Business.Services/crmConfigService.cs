@@ -22,8 +22,8 @@ namespace BluePillCRM.Business.Services
             {
                 CrmConfig crmConfig = await _crmConfigRepository.GetCrmConfig(1);
                 int countTotalUsers = await _userRepository.CountTotalUsers();
-                Console.WriteLine(countTotalUsers - 1);
-                Console.WriteLine(crmConfig.MaxUsers);
+                //Console.WriteLine(countTotalUsers - 1);
+                //Console.WriteLine(crmConfig.MaxUsers);
                 if ((countTotalUsers - 1) < crmConfig.MaxUsers)
                 {
                     return true;
@@ -32,7 +32,7 @@ namespace BluePillCRM.Business.Services
             }
             catch
             {
-                throw new Exception("Une erreur s'est produite. Utilisateur non crée.");
+                throw new Exception("Une erreur s'est produite. Utilisateur non créer.");
             }
         }
     }
