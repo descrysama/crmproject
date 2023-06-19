@@ -23,5 +23,24 @@ namespace BluePillCRM.Business.Repository
                 return type;
             }
         }
+
+        public async Task<Account> FindOneBySiretNumber(string siretNumber)
+        {
+            if (siretNumber != null)
+            {
+                Account type = await _table.FirstOrDefaultAsync(u => u.Siret == siretNumber);
+                if (type == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return type;
+                }
+            } else
+            {
+                return null;
+            }
+        }
     }
 }

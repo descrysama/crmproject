@@ -20,18 +20,31 @@ namespace BluePillCRM.Business.Services
             return account;
         }
 
+        public async Task<Account> FindOneBySiretNumber(string siretNumber)
+        {
+            Account account = await _accountRepository.FindOneBySiretNumber(siretNumber).ConfigureAwait(false);
+            return account;
+        }
+
         public async Task<Account> CreateAccount(createAccount createdAccount)
         {
-            Account checkIfCompnayNameIsUsed = await this.FindOneByCompanyName(createdAccount.CompanyName);
 
+            Account checkIfCompnayNameIsUsed = await this.FindOneByCompanyName(createdAccount.CompanyName);
             if (checkIfCompnayNameIsUsed == null)
             {
-                Account newAccount = await _accountRepository.Insert(AccountDtoToEntity.createAccountMapper(createdAccount)).ConfigureAwait(false);
-                return newAccount;
+                Account checkIfSiretNumberIsUsed = await this.FindOneBySiretNumber(createdAccount.Siret);
+                if (checkIfSiretNumberIsUsed == null)
+                {
+                    Account newAccount = await _accountRepository.Insert(AccountDtoToEntity.createAccountMapper(createdAccount)).ConfigureAwait(false);
+                    return newAccount;
+                } else
+                {
+                    throw new Exception("Un compte avec le même siret existe déjà");
+                }
             }
             else
             {
-                throw new Exception("Un compte avec la même nom ou le même siret existe déjà.");
+                throw new Exception("Un compte avec la même nom existe déjà");
             }
         }
     }

@@ -4,9 +4,9 @@ namespace BluePillCRM.Business.Dtos
 {
     public class AccountEntityToDto
     {
-        public static Account readAccountMapper(Account readAccount)
+        public static readAccount readAccountMapper(Account readAccount)
         {
-            Account account = new Account()
+            readAccount account = new readAccount()
             {
 
                 CompanyName = readAccount.CompanyName,
@@ -16,6 +16,8 @@ namespace BluePillCRM.Business.Dtos
                 TvaNumber = readAccount.TvaNumber,
                 WebsiteUrl = readAccount.WebsiteUrl,
                 AccountType = readAccount.AccountType,
+                AccessLevel = readAccount.AccessLevel,
+                CreatedBy = readAccount.CreatedBy,
                 PaymentMethodId = readAccount.PaymentMethodId,
                 OwnerId = readAccount.OwnerId,
                 Description = readAccount.Description

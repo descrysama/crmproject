@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BluePillCRM.Business.Dtos
 {
-	public class createAccount
-	{
+    public class readAccount
+    {
         public string CompanyName { get; set; } = null!;
 
         public string? Siret { get; set; }

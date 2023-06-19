@@ -16,6 +16,8 @@ namespace BluePillCRM.Business.Dtos
                 TvaNumber = createAccount.TvaNumber,
                 WebsiteUrl = createAccount.WebsiteUrl,
                 AccountType = createAccount.AccountType,
+                AccessLevel = createAccount.AccessLevel,
+                CreatedBy = createAccount.CreatedBy,
                 PaymentMethodId = createAccount.PaymentMethodId,
                 OwnerId = createAccount.OwnerId,
                 Description = createAccount.Description
