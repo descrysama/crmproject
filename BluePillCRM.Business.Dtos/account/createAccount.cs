@@ -24,8 +24,6 @@ namespace BluePillCRM.Business.Dtos
 
         public int? PaymentMethodId { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         public int OwnerId { get; set; }
 
         public string? Description { get; set; }

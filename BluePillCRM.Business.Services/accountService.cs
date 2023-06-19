@@ -14,10 +14,25 @@ namespace BluePillCRM.Business.Services
             _accountRepository = repositoryAccount;
         }
 
-        public async Task<createAccount> CreateAccount(createAccount createAccount)
+        public async Task<Account> FindOneByCompanyName(string companyName)
         {
-            createAccount test = new createAccount();
-            return test;
+            Account account = await _accountRepository.FindOneByCompanyName(companyName).ConfigureAwait(false);
+            return account;
+        }
+
+        public async Task<Account> CreateAccount(createAccount createdAccount)
+        {
+            Account checkIfCompnayNameIsUsed = await this.FindOneByCompanyName(createdAccount.CompanyName);
+
+            if (checkIfCompnayNameIsUsed == null)
+            {
+                Account newAccount = await _accountRepository.Insert(AccountDtoToEntity.createAccountMapper(createdAccount)).ConfigureAwait(false);
+                return newAccount;
+            }
+            else
+            {
+                throw new Exception("Un compte avec la même nom ou le même siret existe déjà.");
+            }
         }
     }
 }

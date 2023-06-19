@@ -38,11 +38,8 @@ public class AccountController : ControllerBase
     {
         try
         {
-            createAccount createdAccount = await _accountService.CreateAccount(accountCreate).ConfigureAwait(false);
-            if (true)
-            {
-                return StatusCode(200, "Compte a bien été créer");
-            }
+            Account createdAccount = await _accountService.CreateAccount(accountCreate).ConfigureAwait(false);
+            return Ok(AccountEntityToDto.readAccountMapper(createdAccount));
         }
         catch (Exception ex)
         {
