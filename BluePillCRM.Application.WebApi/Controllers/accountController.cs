@@ -38,12 +38,25 @@ public class AccountController : ControllerBase
     {
         try
         {
+            var Role = int.Parse(User.FindFirst("Role")?.Value);
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            accountCreate.CreatedBy = userId;
+
+            if(accountCreate.AccessLevel == 0)
+            {
+                accountCreate.AccessLevel = Role;
+            }
+            if(accountCreate.OwnerId == 0)
+            {
+                accountCreate.OwnerId = userId;
+            }
             Account createdAccount = await _accountService.CreateAccount(accountCreate).ConfigureAwait(false);
             return Ok(AccountEntityToDto.readAccountMapper(createdAccount));
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = ex.Message });
+            return StatusCode(500, new { message = ex });
         }
     }
 }

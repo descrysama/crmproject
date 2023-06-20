@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 BluePillCRM.Application.WebApi/appsettings.json
+BluePillCRM.Application.WebApi/appsettings.json
+BluePillCRM.Application.WebApi/appsettings.json
+BluePillCRM.Datas.DbContext/BluePillCRMDbContext.cs

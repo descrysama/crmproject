@@ -21,5 +21,7 @@ namespace BluePillCRM.Business.Dtos
         public string Title { get; set; } = null!;
 
         public int RoleId { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -21,7 +21,7 @@ public partial class User
 
     public int RoleId { get; set; }
 
-    public bool IsDisabled { get; set; }
+    public bool IsDisabled { get; set; } = false;
 
     public DateTime CreatedAt { get; set; }
 

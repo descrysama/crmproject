@@ -40,6 +40,7 @@ namespace BluePillCRM.Business.Services
             if (checkIfEmailIsUsed == null && checkIfUsernameIsUsed == null)
             {
                 userToCreate.Password = PasswordHandler.HashPassword(userToCreate.Password);
+                userToCreate.CreatedAt = DateTime.UtcNow;
                 User user = await _userRepository.Insert(UserDtoToEntity.createUserMapper(userToCreate)).ConfigureAwait(false);
                 return user;
             } else

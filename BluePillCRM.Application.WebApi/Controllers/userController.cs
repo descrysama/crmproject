@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            int userRole = await _userUtilities.CheckUserRole(Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+            int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
             bool IsAllowedToCreate = await _crmConfigService.IsAllowedToCreateUser();
             if (userRole > 3 && userRole != 1 || !IsAllowedToCreate && userRole != 1) 
             {
@@ -58,12 +58,12 @@ public class UserController : ControllerBase
                 SameSite = SameSiteMode.Strict
             };
 
-            Response.Cookies.Append("_auth", JwtGenerator.GenerateJwtToken(createdUser.Id.ToString(), createdUser.Email, _configuration), cookieOptions);
+            //Response.Cookies.Append("_auth", JwtGenerator.GenerateJwtToken(createdUser.Id.ToString(), createdUser.Email, createdUser.RoleId.ToString(), createdUser.RoleId, _configuration), cookieOptions);
 
             return Ok(UserEntityToDto.ReadUserMapper(createdUser));
         } catch (Exception ex)
         {
-            return StatusCode(500, new { message = ex.Message });
+            return StatusCode(500, new { message = ex });
         }
     }
 
@@ -93,7 +93,7 @@ public class UserController : ControllerBase
                     SameSite = SameSiteMode.Strict
                 };
 
-                Response.Cookies.Append("_auth", JwtGenerator.GenerateJwtToken(user.Id.ToString(), user.Email, _configuration), cookieOptions);
+                Response.Cookies.Append("_auth", JwtGenerator.GenerateJwtToken(user.Id.ToString(), user.Email, user.RoleId, _configuration), cookieOptions);
                 return Ok(UserEntityToDto.ReadUserMapper(user));
             } else
             {
@@ -112,7 +112,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Update(UpdateUser updateUser)
     {
         int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        int userRole = await _userUtilities.CheckUserRole(userId);
+        int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
         bool targetUserExists = await _userService.CheckIfExists(updateUser.Id);
 
         if (targetUserExists)
@@ -136,7 +136,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Disable([FromRoute] int id)
     {
         int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        int userRole = await _userUtilities.CheckUserRole(userId);
+        int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
 
         try
         {

@@ -39,12 +39,12 @@ namespace BluePillCRM.Business.Services
                     return newAccount;
                 } else
                 {
-                    throw new Exception("Un compte avec le même siret existe déjà");
+                    throw new Exception("Un compte avec le même SIRET existe déjà.");
                 }
             }
             else
             {
-                throw new Exception("Un compte avec la même nom existe déjà");
+                throw new Exception("Un compte avec le même nom existe déjà.");
             }
         }
     }

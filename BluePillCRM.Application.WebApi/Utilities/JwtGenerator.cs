@@ -7,12 +7,13 @@ namespace BluePillCRM.Application.WebApi.Utilities
 {
     public static class JwtGenerator
     {
-        public static string GenerateJwtToken(string userId, string email, IConfiguration configuration)
+        public static string GenerateJwtToken(string userId, string email, int role, IConfiguration configuration)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(ClaimTypes.Email, email)
+                new Claim(ClaimTypes.Email, email),
+                new Claim("Role", role.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]));

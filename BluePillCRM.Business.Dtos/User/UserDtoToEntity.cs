@@ -14,7 +14,8 @@ namespace BluePillCRM.Business.Dtos
                 Name = createUser.Name.ToLower(),
                 LastName = createUser.LastName,
                 Title = createUser.Title,
-                RoleId = createUser.RoleId
+                RoleId = createUser.RoleId,
+                CreatedAt = createUser.CreatedAt
             };
 
             return user;
