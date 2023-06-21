@@ -70,12 +70,28 @@ namespace BluePillCRM.Business.Services
             User oldUser = await _userRepository.GetById(id).ConfigureAwait(false);
             if(oldUser.RoleId > RoleId)
             {
-                _userRepository.RemoveTrack(oldUser);
+                await DetachFromContext(oldUser);
                 User user = await _userRepository.Update(UserDtoToEntity.deleteUserMapper(oldUser)).ConfigureAwait(false);
                 return user;
             }
 
             throw new Exception("Vous ne pouvez pas supprimer ou desactiver un compte ayant un niveau d'accès supérieur au votre.");
         }
-    }
+
+        public async Task<bool> DetachFromContext(User user)
+        {
+            try
+            {
+                bool detach = _userRepository.RemoveTrack(user);
+                if(detach)
+                {
+                    return true;
+                }
+                return false;
+            } catch(Exception)
+            {
+                return false;
+            }
+        }
+     }
 }

@@ -111,18 +111,19 @@ public class UserController : ControllerBase
     [HttpPatch()]
     public async Task<IActionResult> Update(UpdateUser updateUser)
     {
-        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
-        bool targetUserExists = await _userService.CheckIfExists(updateUser.Id);
+        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-        if (targetUserExists)
+        User targetUserExists = await _userService.FindOneById(updateUser.Id);
+
+        if (targetUserExists != null)
         {
-            if (userRole <= 3)
+            if (userRole < targetUserExists.RoleId || userId == updateUser.Id)
             {
                 return Ok(await _userService.UpdateUser(updateUser));
             } else
             {
-                return BadRequest("Vous ne pouvez pas mettre à jour cet utilisateur.");
+                return BadRequest("Vous ne pouvez pas mettre à jour cet utilisateur. Vous outrepassez vos autorisations.");
             }
             
         } else 
@@ -131,12 +132,28 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize]
+    [Authorize()]
     [HttpPost("disable/{id}")]
     public async Task<IActionResult> Disable([FromRoute] int id)
     {
-        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
+        int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        User userToDisable = await _userService.FindOneById(id).ConfigureAwait(false);
+
+        if (userToDisable == null)
+        {
+            return BadRequest("Utilisateur non trouvé.");
+        }
+
+        if(userToDisable.RoleId < userRole)
+        {
+            return BadRequest("Vous ne pouvez pas desactiver un compte ayant un niveau d'accès suppérieur à vous.");
+        }
+
+        if(userRole == userToDisable.RoleId || userToDisable.Id != userId)
+        {
+            return BadRequest("Vous ne pouvez pas supprimer un compte ayant les mêmes droits que vous.");
+        }
 
         try
         {

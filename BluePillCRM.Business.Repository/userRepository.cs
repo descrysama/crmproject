@@ -50,14 +50,27 @@ namespace BluePillCRM.Business.Repository
 
             if (exists)
             {
+                User user = new()
+                {
+                    Id = id
+                };
+                RemoveTrack(user);
                 return true;
             }
             return false;
         }
 
-        public async void RemoveTrack(User user)
+        public bool RemoveTrack(User user)
         {
-            _table.Entry(user).State = EntityState.Detached;
+            try
+            {
+                _table.Entry(user).State = EntityState.Detached;
+                return true;
+            } catch(Exception)
+            {
+                return false;
+            }
+
     
         }
     }

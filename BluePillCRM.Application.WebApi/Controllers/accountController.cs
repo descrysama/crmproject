@@ -34,7 +34,7 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpPost("createAccount")]
-    public async Task<IActionResult> createAccount(createAccount accountCreate)
+    public async Task<IActionResult> CreateAccount(createAccount accountCreate)
     {
         try
         {
@@ -43,7 +43,7 @@ public class AccountController : ControllerBase
 
             accountCreate.CreatedBy = userId;
 
-            if(accountCreate.AccessLevel == 0)
+            if(accountCreate.AccessLevel == 0 || accountCreate.AccessLevel < Role)
             {
                 accountCreate.AccessLevel = Role;
             }
