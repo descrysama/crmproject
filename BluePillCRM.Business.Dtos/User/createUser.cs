@@ -22,6 +22,8 @@ namespace BluePillCRM.Business.Dtos
 
         public int RoleId { get; set; }
 
+        public bool IsDisabled { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }

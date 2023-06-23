@@ -59,4 +59,23 @@ public class AccountController : ControllerBase
             return StatusCode(500, new { message = ex });
         }
     }
+
+    [Authorize]
+    [HttpGet()]
+    public async Task<IActionResult> GetAccounts([FromQuery] int getOwnedOnly)
+    {
+        try
+        {
+            var Role = int.Parse(User.FindFirst("Role")?.Value);
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            List<Account> accounts = await _accountService.GetAccounts(getOwnedOnly, userId, Role).ConfigureAwait(false);
+
+            return Ok(accounts);
+
+        } catch(Exception e)
+        {
+            return StatusCode(500, new { message = e });
+        }
+    }
 }

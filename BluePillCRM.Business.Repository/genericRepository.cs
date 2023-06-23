@@ -16,7 +16,7 @@ namespace BluePillCRM.Business.Repository
             _table = _bluePillCRMDbContext.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
             return await _table.ToListAsync().ConfigureAwait(false);
         }
