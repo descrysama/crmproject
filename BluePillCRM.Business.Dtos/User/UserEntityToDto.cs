@@ -18,5 +18,18 @@ namespace BluePillCRM.Business.Dtos
 
             return user;
         }
+
+        public static List<readUser> ReadUserListMapper(List<User> users)
+        {
+            List<readUser> userList = new List<readUser>();
+
+            foreach (var user in users)
+            {
+                readUser readUser = ReadUserMapper(user);
+                userList.Add(readUser);
+            }
+
+            return userList;
+        }
     }
 }
