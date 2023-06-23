@@ -20,10 +20,27 @@ namespace BluePillCRM.Business.Dtos
                 CreatedBy = readAccount.CreatedBy,
                 PaymentMethodId = readAccount.PaymentMethodId,
                 OwnerId = readAccount.OwnerId,
-                Description = readAccount.Description
+                Description = readAccount.Description,
+                Contacts = readAccount.Contacts.ToList(),
+                Quotes = readAccount.Quotes.ToList(),
+                Orders = readAccount.Orders.ToList()
             };
 
             return account;
+        }
+
+
+        public static List<readAccount> ReadAccountListMapper(List<Account> accounts)
+        {
+            List<readAccount> userList = new ();
+
+            foreach (var account in accounts)
+            {
+                readAccount readAccount = readAccountMapper(account);
+                userList.Add(readAccount);
+            }
+
+            return userList;
         }
     }
 }

@@ -2,7 +2,6 @@
 using BluePillCRM.Business.Services;
 using BluePillCRM.Business.Dtos;
 using BluePillCRM.Datas.Entities;
-using BluePillCRM.Application.WebApi.Utilities;
 using BluePillCRM.Business.Services.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -71,7 +70,7 @@ public class AccountController : ControllerBase
 
             List<Account> accounts = await _accountService.GetAccounts(getOwnedOnly, userId, Role).ConfigureAwait(false);
 
-            return Ok(accounts);
+            return Ok(AccountEntityToDto.ReadAccountListMapper(accounts));
 
         } catch(Exception e)
         {

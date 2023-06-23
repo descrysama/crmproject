@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BluePillCRM.Datas.Entities;
 
 namespace BluePillCRM.Business.Dtos
 {
@@ -29,6 +25,22 @@ namespace BluePillCRM.Business.Dtos
         public int? PaymentMethodId { get; set; }
 
         public int OwnerId { get; set; }
+
+        public int LastModifiedBy { get; set; }
+
+        public Address BillingAddress { get; set; } = null!;
+
+        public Address DeliveryAddress { get; set; } = null!;
+
+        public List<Contact> Contacts { get; set; } = null!;
+
+        public List<Order> Orders { get; set; } = null!;
+
+        public List<Quote> Quotes { get; set; } = null!;
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
 
         public string? Description { get; set; }
     }
