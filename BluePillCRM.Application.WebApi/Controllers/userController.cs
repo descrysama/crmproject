@@ -36,9 +36,9 @@ public class UserController : ControllerBase
     {
         try
         {
-            int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
+            int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
             bool IsAllowedToCreate = await _crmConfigService.IsAllowedToCreateUser();
-            if (userRole > 3 && userRole != 1 || !IsAllowedToCreate && userRole != 1) 
+            if (userRole > 3 || !IsAllowedToCreate && userRole != 1) 
             {
                 return StatusCode(500, new { message = "Vous ne pouvez pas créer d'utilisateur supplémentaires. Veuillez consulter l'administrateur CRM." });
             }
@@ -111,7 +111,7 @@ public class UserController : ControllerBase
     [HttpPatch()]
     public async Task<IActionResult> Update(UpdateUser updateUser)
     {
-        int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
+        int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
         int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
         User targetUserExists = await _userService.FindOneById(updateUser.Id);
@@ -136,7 +136,7 @@ public class UserController : ControllerBase
     [HttpPost("disable/{id}")]
     public async Task<IActionResult> Disable([FromRoute] int id)
     {
-        int userRole = Int32.Parse(User.FindFirst(ClaimTypes.Role)?.Value);
+        int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
         int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         User userToDisable = await _userService.FindOneById(id).ConfigureAwait(false);
 

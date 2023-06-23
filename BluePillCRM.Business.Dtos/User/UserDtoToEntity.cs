@@ -15,6 +15,7 @@ namespace BluePillCRM.Business.Dtos
                 LastName = createUser.LastName,
                 Title = createUser.Title,
                 RoleId = createUser.RoleId,
+                IsDisabled = false,
                 CreatedAt = createUser.CreatedAt
             };
 

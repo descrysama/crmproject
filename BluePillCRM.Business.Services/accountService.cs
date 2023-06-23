@@ -47,5 +47,11 @@ namespace BluePillCRM.Business.Services
                 throw new Exception("Un compte avec le même nom existe déjà.");
             }
         }
+
+        public async Task<List<Account>> GetAccounts(int getOwnOnly, int currentUserId, int userRole)
+        {
+            List<Account> accounts = await _accountRepository.GetAccountOwnedOrPublic(currentUserId, userRole, getOwnOnly).ConfigureAwait(false);
+            return accounts;
+        }
     }
 }

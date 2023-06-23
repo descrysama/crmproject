@@ -42,5 +42,18 @@ namespace BluePillCRM.Business.Repository
                 return null;
             }
         }
+
+        public async Task<List<Account>> GetAccountOwnedOrPublic(int id, int userRole, int getOwnOnly)
+        {
+            if(getOwnOnly == 1)
+            {
+                List<Account> accounts = await _table.Where(u => u.OwnerId == id && u.AccessLevel >= userRole).ToListAsync();
+                return accounts;
+            } else
+            {
+                List<Account> accounts = await _table.Where(u => u.AccessLevel >= userRole).ToListAsync();
+                return accounts;
+            }
+        }
     }
 }
