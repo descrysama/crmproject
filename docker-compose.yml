@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bluepillcrm
+    ports:
+      - "3306:3306"
+  app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "5137:5137"
+    environment:
+      - DOTNET_URLS=http://+:5137
+    depends_on:
+      - mysql
