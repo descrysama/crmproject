@@ -10,17 +10,3 @@ jobs:
       - name: Pull Data
         uses: actions/checkout@v2
 
-      - name: Stop Docker container
-        run: |
-        sudo docker stop crmproject-app-1 || true
-        sudo docker stop crmproject-mysql-1 || true
-
-      - name: Remove Docker container
-        run: |
-        sudo docker rm crmproject-app-1 || true
-        sudo docker rm crmproject-mysql-1 || true
-
-      - name: Build and Run Docker container
-        run: |
-          sudo docker compose build
-          sudo docker compose up -d
