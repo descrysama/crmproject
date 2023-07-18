@@ -7,25 +7,25 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Pull Data
+      - name: Pull Data from main branch
         uses: actions/checkout@v2
 
-      - name: Stop Docker container
+      - name: Stop Docker container (Backend)
         run: sudo docker stop crmproject-app-1
         
-      - name: Stop Docker container
+      - name: Stop Docker container (Database)
         run: sudo docker stop crmproject-mysql-1
         
 
-      - name: Remove Docker container
+      - name: Remove Docker container (Backend)
         run: sudo docker rm crmproject-app-1
-      - name: Remove Docker container
+      - name: Remove Docker container (Database)
         run: sudo docker rm crmproject-mysql-1
 
 
-      - name: Build and Run Docker container
+      - name: Build Docker container
         run: sudo docker compose build
           
-      - name: Build and Run Docker container
+      - name: Run Docker container
         run: sudo docker compose up -d
 
