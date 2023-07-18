@@ -12,6 +12,7 @@ namespace BluePillCRM.Business.Services
         public AccountService(AccountRepository repositoryAccount)
         {
             _accountRepository = repositoryAccount;
+
         }
 
         public async Task<Account> FindOneByCompanyName(string companyName)
