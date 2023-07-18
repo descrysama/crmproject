@@ -11,27 +11,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Stop Docker container
-        run:
+        run: |
         sudo docker stop crmproject-app-1
-
-      - name: Stop Docker container
-        run:
         sudo docker stop crmproject-mysql-1
 
-
       - name: Remove Docker container
-        run:
+        run: |
         sudo docker rm crmproject-app-1
-
-      - name: Remove Docker container
-        run:
         sudo docker rm crmproject-mysql-1
 
       - name: Build and Run Docker container
-        run:
+        run: |
           sudo docker compose build
-
-      - name: Build and Run Docker container
-        run:
           sudo docker compose up -d
-
