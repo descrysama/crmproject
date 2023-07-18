@@ -5,6 +5,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password --init-file /scripts/init-script.sql
     volumes:
       - ./init.sql:/scripts/init-script.sql
+      
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
