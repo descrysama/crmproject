@@ -442,7 +442,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `name`, `last_name`, `title`, `role_id`, `is_disabled`, `created_at`, `updated_at`) VALUES
-(3, 'descry', 'descry@gmail.com', '$2a$11$Usis5IwB8g6q6jZAgaqlgeExoeMITYQkgYiTGlThEa2NVDHt/60lW', 'erwin', 'Gossin', 'SuperAdmin', 2, 0, '2023-06-20 10:32:28', NULL),
+(3, 'descry', 'descry@gmail.com', '$2a$11$Usis5IwB8g6q6jZAgaqlgeExoeMITYQkgYiTGlThEa2NVDHt/60lW', 'erwin', 'Gossin', 'SuperAdmin', 1, 0, '2023-06-20 10:32:28', NULL),
 (4, 'bob', 'bobbystyle333492@gmail.com', '$2a$11$76Db3FKPZEW8e0dyFGT5lOBNJb1VCRIteHU5BSJ2DLhH2c1oHkxcW', 'axel', 'Van Heckeux', 'Responsable des stocks', 3, 0, '2023-06-23 10:09:54', NULL);
 
 -- --------------------------------------------------------
