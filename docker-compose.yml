@@ -6,10 +6,11 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bluepillcrm
     ports:
       - "3306:3306"
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
+      - ./sql-scripts:/docker-entrypoint-initdb.d
   app:
     build:
       dockerfile: Dockerfile
