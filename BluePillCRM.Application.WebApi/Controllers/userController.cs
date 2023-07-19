@@ -89,7 +89,7 @@ public class UserController : ControllerBase
                 {
                     Expires = DateTime.UtcNow.AddDays(2),
                     Path = "/",
-                    Secure = true,
+                    Secure = false,
                     SameSite = SameSiteMode.Strict
                 };
 
