@@ -23,7 +23,7 @@ namespace BluePillCRM.Application.WebApi.Utilities
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(30),
+                expires: DateTime.UtcNow.AddDays(3),
                 signingCredentials: creds
             );
 
