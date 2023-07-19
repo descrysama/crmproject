@@ -13,14 +13,15 @@ jobs:
       - name: Stop Docker container (Backend)
         run: sudo docker stop crmproject-app-1
         
-      - name: Stop Docker container (Database)
-        run: sudo docker stop crmproject-mysql-1
+      # - name: Stop Docker container (Database)
+      #   run: sudo docker stop crmproject-mysql-1
         
 
       - name: Remove Docker container (Backend)
         run: sudo docker rm crmproject-app-1
-      - name: Remove Docker container (Database)
-        run: sudo docker rm crmproject-mysql-1
+
+      # - name: Remove Docker container (Database)
+      #   run: sudo docker rm crmproject-mysql-1
 
 
       - name: Build Docker container
