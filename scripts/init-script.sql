@@ -26,7 +26,6 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `accounts`
 --
-USE bluepillcrm;
 
 CREATE TABLE `accounts` (
   `id` int(11) NOT NULL,
