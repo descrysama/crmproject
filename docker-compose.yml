@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./sql-scripts:/docker-entrypoint-initdb.d
+      - ./scripts:/docker-entrypoint-initdb.d
   app:
     build:
       dockerfile: Dockerfile
