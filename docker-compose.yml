@@ -20,3 +20,4 @@ services:
       - DOTNET_URLS=http://+:5137
     depends_on:
       - mysql
+      
