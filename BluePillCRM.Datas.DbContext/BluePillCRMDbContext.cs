@@ -53,7 +53,7 @@ public partial class BluePillCRMDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=mysql;database=bluepillcrm;port=3306;User=root;Password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
+        => optionsBuilder.UseMySql("server=crmdatabase.mysql.database.azure.com;database=bluepillcrm;port=3306;User=descry;Password=Google59", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
