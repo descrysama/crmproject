@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: bluepillcrm
+      MYSQL_DATABASE: bluepillcrme
     ports:
       - "3306:3306"
     volumes:
