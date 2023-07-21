@@ -18,5 +18,3 @@ services:
       - "5137:5137"
     environment:
       - DOTNET_URLS=http://+:5137
-    depends_on:
-      - mysql
