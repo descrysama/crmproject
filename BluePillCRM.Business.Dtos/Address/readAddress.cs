@@ -8,6 +8,7 @@ namespace BluePillCRM.Business.Dtos
 {
     public class readAddress
     {
+        public int Id { get; set; }
         public String? street { get; set; }
 
         public String? postalCode { get; set; }
