@@ -365,3 +365,4 @@ BluePillCRM.Application.WebApi/appsettings.json
 BluePillCRM.Application.WebApi/appsettings.json
 BluePillCRM.Application.WebApi/appsettings.json
 BluePillCRM.Datas.DbContext/BluePillCRMDbContext.cs
+*.json
