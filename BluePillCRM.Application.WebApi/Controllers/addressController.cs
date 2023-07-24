@@ -2,10 +2,8 @@
 using BluePillCRM.Business.Services;
 using BluePillCRM.Business.Dtos;
 using BluePillCRM.Datas.Entities;
-using BluePillCRM.Business.Services.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
 
 namespace BluePillCRM.Application.WebApi.Controllers
 {
