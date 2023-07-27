@@ -1,4 +1,5 @@
 ﻿using BluePillCRM.Datas;
+using BluePillCRM.Datas.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -56,7 +57,5 @@ namespace BluePillCRM.Business.Repository
 
             return elementDeleted.Entity;
         }
-
-
     }
 }
