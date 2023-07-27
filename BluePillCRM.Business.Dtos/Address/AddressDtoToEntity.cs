@@ -6,7 +6,7 @@ namespace BluePillCRM.Business.Dtos
     {
         public static Address createAddressMapper(createAddress createAddress)
         {
-            Address address = new Address()
+            Address address = new ()
             {
                 Street = createAddress.Street,
                 PostalCode = createAddress.PostalCode,
@@ -21,7 +21,7 @@ namespace BluePillCRM.Business.Dtos
 
         public static Address updateAddressMapper(updateAddress updateAddress, Address currentAddress)
         {
-            Address address = new Address()
+            Address address = new ()
             {
                 Street = updateAddress.Street != null ? updateAddress.Street : currentAddress.Street,
                 PostalCode = updateAddress.PostalCode != null ? updateAddress.PostalCode : currentAddress.PostalCode,
@@ -38,7 +38,7 @@ namespace BluePillCRM.Business.Dtos
 
         public static Address deleteAddressMapper(int addressId)
         {
-            Address address = new Address()
+            Address address = new ()
             {
                 Id = addressId
 

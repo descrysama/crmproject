@@ -19,6 +19,7 @@ namespace BluePillCRM.Application.Ioc
             services.AddScoped<AddressRepository>();
             services.AddScoped<UserRepository>();
             services.AddScoped<AccountRepository>();
+            services.AddScoped<ProductRepository>();
 
             return services;
         }
@@ -31,6 +32,7 @@ namespace BluePillCRM.Application.Ioc
             services.AddScoped<UserService>();
             services.AddScoped<UserUtilities>();
             services.AddScoped<AccountService>();
+            services.AddScoped<ProductService>();
 
             return services;
         }
