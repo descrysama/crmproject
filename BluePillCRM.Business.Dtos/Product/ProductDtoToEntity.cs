@@ -19,5 +19,20 @@ namespace BluePillCRM.Business.Dtos
                 CreatedBy = UserId
             };
         }
+
+        public static Product UpdateProductMapper(UpdateProduct updateProduct, Product oldProduct, int UserId)
+        {
+            return new Product()
+            {
+                Id = updateProduct.Id,
+                ProductName = updateProduct.ProductName != null ? updateProduct.ProductName : oldProduct.ProductName,
+                SerialNumber = updateProduct.SerialNumber != null ? updateProduct.SerialNumber : oldProduct.SerialNumber,
+                Price = updateProduct.Price != 0 ? updateProduct.Price : oldProduct.Price,
+                Description = updateProduct.Description != null ? updateProduct.Description : oldProduct.Description,
+                UpdatedAt = DateTime.Now,
+                CreatedBy = oldProduct.CreatedBy,
+                UpdatedBy = UserId,
+            };
+        }
     }
 }

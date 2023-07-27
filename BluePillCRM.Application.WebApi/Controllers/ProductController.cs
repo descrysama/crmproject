@@ -50,6 +50,25 @@ namespace BluePillCRM.Application.WebApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("getsingle/{id}")]
+        public async Task<IActionResult> GetSingleProduct(int id)
+        {
+            
+            try
+            {
+                if (id == 0)
+                {
+                    throw new Exception("Veuillez specifier un Id.");
+                }
+                Product product = await _productService.GetById(id).ConfigureAwait(false);
+                return Ok(ProductEntityToDto.ReadProductMapper(product));
+            } catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [Authorize]
         [HttpPost()]
         public async Task<IActionResult> Create(CreateProduct product)
         {
@@ -68,18 +87,40 @@ namespace BluePillCRM.Application.WebApi.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpPatch()]
+        public async Task<IActionResult> Update(UpdateProduct product)
+        {
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            Product checkIfExists = await _productService.GetById(product.Id);
+            if (checkIfExists == null)
+            {
+                return BadRequest("Une erreur s'est produite. Id incorrect.");
+            }
+            try
+            {
+                Product updatedProduct = await _productService.Update(ProductDtoToEntity.UpdateProductMapper(product, checkIfExists, userId));
+                return Ok(updatedProduct);
+            } catch (Exception ex)
+            {
+                return StatusCode(500, new {message = ex.Message});
+            }
+        }
+
         [Authorize]
         [HttpDelete()]
         public async Task<IActionResult> Delete(int id)
         {
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             if (id == 0)
             {
-                return BadRequest("Une erreur s'est produite. Veuillez vous reconnecter.");
+                return BadRequest("Une erreur s'est produite. Id incorrect.");
             }
 
             try
             {
-                bool deleteProduct = await _productService.SoftDelete(id).ConfigureAwait(false);
+                bool deleteProduct = await _productService.SoftDelete(id, userId).ConfigureAwait(false);
                 return Ok("Produit supprimé avec succès");
             } catch (Exception ex)
             {

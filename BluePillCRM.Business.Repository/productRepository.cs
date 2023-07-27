@@ -24,7 +24,7 @@ namespace BluePillCRM.Business.Repository
             }
         }
 
-        public async Task<bool> SoftDelete(int id)
+        public async Task<bool> SoftDelete(int id, int userId)
         {
             try
             {
@@ -33,6 +33,7 @@ namespace BluePillCRM.Business.Repository
                 if(product != null)
                 {
                     product.IsDisabled = true;
+                    product.UpdatedBy = userId;
                     _table.Update(product);
                     await _bluePillCRMDbContext.SaveChangesAsync();
                     return true;

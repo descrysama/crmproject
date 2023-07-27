@@ -14,6 +14,19 @@ namespace BluePillCRM.Business.Services
             _productRepository = productRepository;
         }
 
+        public async Task<Product> GetById(int id)
+        {
+            try
+            {
+                Product product = await _productRepository.GetById(id);
+                _productRepository.RemoveTrack(product);
+                return product;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public Task<List<Product>> GetProductsByPage(int page, int amount)
         {
             try
@@ -36,11 +49,23 @@ namespace BluePillCRM.Business.Services
             }
         }
 
-        public Task<bool> SoftDelete(int id)
+        public Task<bool> SoftDelete(int id, int UserId)
         {
             try
             {
-                return _productRepository.SoftDelete(id);
+                return _productRepository.SoftDelete(id, UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<Product> Update(Product product)
+        {
+            try
+            {
+                return _productRepository.Update(product);
             }
             catch (Exception ex)
             {
