@@ -47,19 +47,11 @@ namespace BluePillCRM.Business.Repository
         {
             if(getOwnOnly == 1)
             {
-                List<Account> accounts = await _table.Where(u => u.OwnerId == id && u.AccessLevel >= userRole)
-                    .Include(u => u.Contacts.Where(c => c.OwnerId == id && c.AccessLevel >= userRole))
-                    .Include(u => u.Orders.Where(c => c.CreatedBy == id && c.AccessLevel >= userRole))
-                    .Include(u => u.Quotes.Where(c => c.CreatedBy == id && c.AccessLevel >= userRole))
-                    .ToListAsync();
+                List<Account> accounts = await _table.Where(u => u.OwnerId == id && u.AccessLevel >= userRole).ToListAsync();
                 return accounts;
             } else
             {
-                List<Account> accounts = await _table.Where(u => u.AccessLevel >= userRole)
-                    .Include(u => u.Contacts.Where(c => c.AccessLevel >= userRole))
-                    .Include(u => u.Orders.Where(c => c.AccessLevel >= userRole))
-                    .Include(u => u.Quotes.Where(c => c.AccessLevel >= userRole))
-                    .ToListAsync();
+                List<Account> accounts = await _table.Where(u => u.AccessLevel >= userRole).ToListAsync();
                 return accounts;
             }
         }

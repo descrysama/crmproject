@@ -68,9 +68,9 @@ public class AccountController : ControllerBase
             var Role = int.Parse(User.FindFirst("Role")?.Value);
             int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            List<Account> accounts = await _accountService.GetAccounts(getOwnedOnly, userId, Role).ConfigureAwait(false);
+            List<readAccount> accounts = await _accountService.GetAccounts(getOwnedOnly, userId, Role).ConfigureAwait(false);
 
-            return Ok(AccountEntityToDto.ReadAccountListMapper(accounts));
+            return Ok(accounts);
 
         } catch(Exception e)
         {

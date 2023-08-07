@@ -6,14 +6,14 @@ namespace BluePillCRM.Datas;
 
 public partial class BluePillCRMDbContext : DbContext
 {
+
     public BluePillCRMDbContext()
     {
     }
 
-    public BluePillCRMDbContext(DbContextOptions<BluePillCRMDbContext> options, IConfiguration configuration)
+    public BluePillCRMDbContext(DbContextOptions<BluePillCRMDbContext> options)
         : base(options)
     {
-        _configuration = configuration;
     }
 
     public virtual DbSet<Account> Accounts { get; set; }
@@ -52,7 +52,6 @@ public partial class BluePillCRMDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    private readonly IConfiguration _configuration;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySql("server=crmdatabase.mysql.database.azure.com;database=bluepillcrm;port=3306;User=descry;Password=Google59", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));

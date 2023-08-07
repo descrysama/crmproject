@@ -21,9 +21,6 @@ namespace BluePillCRM.Business.Dtos
                 PaymentMethodId = readAccount.PaymentMethodId,
                 OwnerId = readAccount.OwnerId,
                 Description = readAccount.Description,
-                Contacts = readAccount.Contacts.ToList(),
-                Quotes = readAccount.Quotes.ToList(),
-                Orders = readAccount.Orders.ToList()
             };
 
             return account;

@@ -32,12 +32,6 @@ namespace BluePillCRM.Business.Dtos
 
         public Address DeliveryAddress { get; set; } = null!;
 
-        public List<Contact> Contacts { get; set; } = null!;
-
-        public List<Order> Orders { get; set; } = null!;
-
-        public List<Quote> Quotes { get; set; } = null!;
-
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
