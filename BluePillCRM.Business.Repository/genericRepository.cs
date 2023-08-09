@@ -19,7 +19,7 @@ namespace BluePillCRM.Business.Repository
 
         public async Task<List<T>> GetAll()
         {
-            return await _table.ToListAsync().ConfigureAwait(false);
+            return await _table.IgnoreAutoIncludes().ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<T> GetById(object id)

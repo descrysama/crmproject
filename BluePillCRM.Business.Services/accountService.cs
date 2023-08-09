@@ -49,10 +49,10 @@ namespace BluePillCRM.Business.Services
             }
         }
 
-        public async Task<List<Account>> GetAccounts(int getOwnOnly, int currentUserId, int userRole)
+        public async Task<List<readAccount>> GetAccounts(int getOwnOnly, int currentUserId, int userRole)
         {
             List<Account> accounts = await _accountRepository.GetAccountOwnedOrPublic(currentUserId, userRole, getOwnOnly).ConfigureAwait(false);
-            return accounts;
+            return AccountEntityToDto.ReadAccountListMapper(accounts);
         }
     }
 }

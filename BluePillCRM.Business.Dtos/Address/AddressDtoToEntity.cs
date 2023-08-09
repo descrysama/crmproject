@@ -23,6 +23,7 @@ namespace BluePillCRM.Business.Dtos
         {
             Address address = new ()
             {
+                Id = updateAddress.Id,
                 Street = updateAddress.Street != null ? updateAddress.Street : currentAddress.Street,
                 PostalCode = updateAddress.PostalCode != null ? updateAddress.PostalCode : currentAddress.PostalCode,
                 City = updateAddress.City != null ? updateAddress.City : currentAddress.City,

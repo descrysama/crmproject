@@ -18,8 +18,7 @@ namespace BluePillCRM.Business.Services
         {
             try
             {
-                Product product = await _productRepository.GetById(id);
-                _productRepository.RemoveTrack(product);
+                Product product = await _productRepository.GetProductById(id);
                 return product;
             } catch (Exception ex)
             {

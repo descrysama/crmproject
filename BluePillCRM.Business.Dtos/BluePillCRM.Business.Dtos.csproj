@@ -10,4 +10,12 @@
     <ProjectReference Include="..\BluePillCRM.Datas.Entities\BluePillCRM.Datas.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Quote\" />
+    <None Remove="Country\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Quote\" />
+    <Folder Include="Country\" />
+  </ItemGroup>
 </Project>

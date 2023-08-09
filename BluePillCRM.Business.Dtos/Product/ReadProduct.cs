@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BluePillCRM.Datas.Entities;
 
 namespace BluePillCRM.Business.Dtos
 {
@@ -24,8 +20,8 @@ namespace BluePillCRM.Business.Dtos
 
         public DateTime? updatedAt { get; set; }
 
-        public int? modifiedBy { get; set; }
+        public readUser? modifiedBy { get; set; }
 
-        public int createdBy { get; set; }
+        public readUser CreatedBy { get; set; }
     }
 }

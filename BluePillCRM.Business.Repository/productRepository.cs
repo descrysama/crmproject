@@ -15,7 +15,12 @@ namespace BluePillCRM.Business.Repository
         {
             try
             {
-                List<Product> products = await _table.Where(product => product.IsDisabled == false).Skip(amount * (page - 1)).Take(amount).ToListAsync().ConfigureAwait(false);
+                List<Product> products = await _table.Where(product => product.IsDisabled == false)
+                    .Include(u => u.CreatedByNavigation)
+                    .Include(u => u.UpdatedByNavigation)
+                    .Skip(amount * (page - 1))
+                    .Take(amount)
+                    .ToListAsync().ConfigureAwait(false);
                 return products;
 
             } catch(Exception ex)
@@ -71,6 +76,23 @@ namespace BluePillCRM.Business.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            Product product = await _table
+                                .AsNoTracking()
+                                .Include(u => u.CreatedByNavigation)
+                                .Include(u => u.UpdatedByNavigation)
+                                .FirstOrDefaultAsync(u => u.Id == id)
+                                .ConfigureAwait(false);
+
+            if (product == null)
+            {
+                throw new Exception("Element non trouvé.");
+            }
+
+            return product;
         }
 
         public bool RemoveTrack(Product product)

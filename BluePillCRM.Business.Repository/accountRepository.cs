@@ -13,7 +13,14 @@ namespace BluePillCRM.Business.Repository
 
         public async Task<Account> FindOneByCompanyName(string companyName)
         {
-            Account type = await _table.FirstOrDefaultAsync(u => u.CompanyName == companyName);
+            Account type = await _table.AsNoTracking()
+                .Include(u => u.CreatedByNavigation)
+                .Include(u => u.Owner)
+                .Include(u => u.DeliveryAddress)
+                    .ThenInclude(u => u.Country)
+                .Include(u => u.BillingAddress)
+                    .ThenInclude(u => u.Country)
+                .FirstOrDefaultAsync(u => u.CompanyName == companyName);
             if (type == null)
             {
                 return null;
@@ -28,7 +35,14 @@ namespace BluePillCRM.Business.Repository
         {
             if (siretNumber != null)
             {
-                Account type = await _table.FirstOrDefaultAsync(u => u.Siret == siretNumber);
+                Account type = await _table.AsNoTracking()
+                    .Include(u => u.CreatedByNavigation)
+                    .Include(u => u.Owner)
+                    .Include(u => u.DeliveryAddress)
+                        .ThenInclude(u => u.Country)
+                    .Include(u => u.BillingAddress)
+                        .ThenInclude(u => u.Country)
+                    .FirstOrDefaultAsync(u => u.Siret == siretNumber);
                 if (type == null)
                 {
                     return null;
@@ -45,23 +59,22 @@ namespace BluePillCRM.Business.Repository
 
         public async Task<List<Account>> GetAccountOwnedOrPublic(int id, int userRole, int getOwnOnly)
         {
-            if(getOwnOnly == 1)
+            var query = _table.AsNoTracking()
+                .Include(u => u.CreatedByNavigation)
+                .Include(u => u.Owner)
+                .Include(u => u.DeliveryAddress)
+                    .ThenInclude(u => u.Country)
+                .Include(u => u.BillingAddress)
+                    .ThenInclude(u => u.Country)
+                .Where(u => u.AccessLevel >= userRole);
+
+            if (getOwnOnly == 1)
             {
-                List<Account> accounts = await _table.Where(u => u.OwnerId == id && u.AccessLevel >= userRole)
-                    .Include(u => u.Contacts.Where(c => c.OwnerId == id && c.AccessLevel >= userRole))
-                    .Include(u => u.Orders.Where(c => c.CreatedBy == id && c.AccessLevel >= userRole))
-                    .Include(u => u.Quotes.Where(c => c.CreatedBy == id && c.AccessLevel >= userRole))
-                    .ToListAsync();
-                return accounts;
-            } else
-            {
-                List<Account> accounts = await _table.Where(u => u.AccessLevel >= userRole)
-                    .Include(u => u.Contacts.Where(c => c.AccessLevel >= userRole))
-                    .Include(u => u.Orders.Where(c => c.AccessLevel >= userRole))
-                    .Include(u => u.Quotes.Where(c => c.AccessLevel >= userRole))
-                    .ToListAsync();
-                return accounts;
+                query = query.Where(u => u.OwnerId == id);
             }
+
+            return await query.ToListAsync();
         }
+
     }
 }

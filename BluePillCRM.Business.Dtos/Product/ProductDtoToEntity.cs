@@ -30,6 +30,7 @@ namespace BluePillCRM.Business.Dtos
                 Price = updateProduct.Price != 0 ? updateProduct.Price : oldProduct.Price,
                 Description = updateProduct.Description != null ? updateProduct.Description : oldProduct.Description,
                 UpdatedAt = DateTime.Now,
+                CreatedAt = oldProduct.CreatedAt,
                 CreatedBy = oldProduct.CreatedBy,
                 UpdatedBy = UserId,
             };

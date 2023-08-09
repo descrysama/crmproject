@@ -20,6 +20,8 @@ namespace BluePillCRM.Business.Dtos
 
         public string Title { get; set; }
 
+        public bool IsDisabled { get; set; }
+
         public int RoleId { get; set; }
     }
 }

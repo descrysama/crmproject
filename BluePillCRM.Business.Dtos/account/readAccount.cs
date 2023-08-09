@@ -4,6 +4,8 @@ namespace BluePillCRM.Business.Dtos
 {
     public class readAccount
     {
+        public int Id { get; set; }
+
         public string CompanyName { get; set; } = null!;
 
         public string? Siret { get; set; }
@@ -20,23 +22,17 @@ namespace BluePillCRM.Business.Dtos
 
         public int AccessLevel { get; set; }
 
-        public int CreatedBy { get; set; }
+        public readUser CreatedBy { get; set; }
 
         public int? PaymentMethodId { get; set; }
 
-        public int OwnerId { get; set; }
+        public readUser OwnedBy { get; set; }
 
         public int LastModifiedBy { get; set; }
 
-        public Address BillingAddress { get; set; } = null!;
+        public readAddress BillingAddress { get; set; } = null!;
 
-        public Address DeliveryAddress { get; set; } = null!;
-
-        public List<Contact> Contacts { get; set; } = null!;
-
-        public List<Order> Orders { get; set; } = null!;
-
-        public List<Quote> Quotes { get; set; } = null!;
+        public readAddress DeliveryAddress { get; set; } = null!;
 
         public DateTime CreatedAt { get; set; }
 
