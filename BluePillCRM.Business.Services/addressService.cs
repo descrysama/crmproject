@@ -18,7 +18,7 @@ namespace BluePillCRM.Business.Services
         {
             try
             {
-                Address address = await _addressRepository.GetById(id).ConfigureAwait(false);
+                Address address = await _addressRepository.GetSingle(id).ConfigureAwait(false);
                 if(address.AccessLevel < userRole)
                 {
                     throw new Exception("Vous ne pouvez pas accéder à cette ressource, elle outrepasse vos droits.");

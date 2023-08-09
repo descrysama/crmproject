@@ -11,6 +11,22 @@ namespace BluePillCRM.Business.Repository
 
         }
 
+        public async Task<Address> GetSingle(int id)
+        {
+            Address address = await _table
+                    .AsNoTracking()
+                    .Include(u => u.Country)
+                    .FirstOrDefaultAsync(u => u.Id == id)
+                    .ConfigureAwait(false);
+
+            if (address == null)
+            {
+                throw new Exception("Element non trouvé.");
+            }
+
+            return address;
+        }
+
         public bool RemoveTrack(Address address)
         {
             try

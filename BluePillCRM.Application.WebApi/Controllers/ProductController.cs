@@ -93,13 +93,14 @@ namespace BluePillCRM.Application.WebApi.Controllers
         public async Task<IActionResult> Update(UpdateProduct product)
         {
             int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            Product checkIfExists = await _productService.GetById(product.Id);
-            if (checkIfExists == null)
-            {
-                return BadRequest("Une erreur s'est produite. Id incorrect.");
-            }
+         
             try
             {
+                Product checkIfExists = await _productService.GetById(product.Id);
+                if (checkIfExists == null)
+                {
+                    return BadRequest("Une erreur s'est produite. Id incorrect.");
+                }
                 Product updatedProduct = await _productService.Update(ProductDtoToEntity.UpdateProductMapper(product, checkIfExists, userId));
                 return Ok(updatedProduct);
             } catch (Exception ex)

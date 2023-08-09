@@ -12,7 +12,11 @@ namespace BluePillCRM.Business.Dtos
                 street = entityAddress.Street,
                 postalCode = entityAddress.PostalCode,
                 city = entityAddress.City,
-                countryId = entityAddress.CountryId,
+                country = new ReadCountry
+                {
+                    Id = entityAddress.Country.Id,
+                    Name = entityAddress.Country.Name
+                },
                 accessLevel = entityAddress.AccessLevel,
                 createdBy = entityAddress.CreatedBy,
                 createdAt = entityAddress.CreatedAt,

@@ -12,7 +12,7 @@ IConfiguration configuration = builder.Configuration;
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
-    options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
     options.SerializerSettings.Formatting = Formatting.Indented;
 });
 
@@ -42,10 +42,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
-
-
-builder.Services.AddControllers()
-    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

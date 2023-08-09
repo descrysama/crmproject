@@ -14,6 +14,7 @@ public partial class BluePillCRMDbContext : DbContext
     public BluePillCRMDbContext(DbContextOptions<BluePillCRMDbContext> options)
         : base(options)
     {
+        this.ChangeTracker.LazyLoadingEnabled = false;
     }
 
     public virtual DbSet<Account> Accounts { get; set; }

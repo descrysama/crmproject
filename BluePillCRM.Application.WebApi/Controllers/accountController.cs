@@ -5,6 +5,7 @@ using BluePillCRM.Datas.Entities;
 using BluePillCRM.Business.Services.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace Api.OnlineShop.Controllers;
 
@@ -51,11 +52,11 @@ public class AccountController : ControllerBase
                 accountCreate.OwnerId = userId;
             }
             Account createdAccount = await _accountService.CreateAccount(accountCreate).ConfigureAwait(false);
-            return Ok(AccountEntityToDto.readAccountMapper(createdAccount));
+            return Ok(createdAccount);
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = ex });
+            return StatusCode(500, new { message = ex.Message });
         }
     }
 
