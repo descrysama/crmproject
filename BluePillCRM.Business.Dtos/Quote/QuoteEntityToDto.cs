@@ -4,7 +4,6 @@ namespace BluePillCRM.Business.Dtos
 	public class QuoteEntityToDto
 	{
 
-
 	}
 }
 

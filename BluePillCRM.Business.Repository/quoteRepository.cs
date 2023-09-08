@@ -1,22 +1,28 @@
-﻿using System;
-using BluePillCRM.Datas;
+﻿using BluePillCRM.Datas;
 using BluePillCRM.Datas.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BluePillCRM.Business.Repository
 {
-	public class QuoteRepository
+	public class QuoteRepository : GenericRepository<Quote>
 	{
-        protected readonly BluePillCRMDbContext _bluePillCRMDbContext;
 
-        protected readonly DbSet<Quote> _table;
-        public QuoteRepository(BluePillCRMDbContext bluePillCRMDbContext)
+        public QuoteRepository(BluePillCRMDbContext bluePillCRMDbContext) : base(bluePillCRMDbContext)
         {
-            _bluePillCRMDbContext = bluePillCRMDbContext;
-            _table = _bluePillCRMDbContext.Set<Quote>();
         }
 
+        public async Task<Quote> CreateQuote(Quote quote)
+        {
+            try
+            {
+                var createQuote = await this.Insert(quote).ConfigureAwait(false);
 
+                return createQuote;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
