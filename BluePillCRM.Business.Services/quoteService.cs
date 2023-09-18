@@ -26,7 +26,32 @@ namespace BluePillCRM.Business.Services
 			}
 		}
 
-		public async Task<Quote> Update(Quote quote)
+		public async Task<List<Quote>> FindByContact(int contactId,Boolean onlyAcceptedQuotes)
+		{
+			try
+			{
+				List<Quote> fetchedQuote = await _quoteRepository.FindByContact(contactId, onlyAcceptedQuotes);
+				return fetchedQuote;
+			}catch(Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        public async Task<List<Quote>> FindByAccount(int accountId, Boolean onlyAcceptedQuotes)
+        {
+            try
+            {
+                List<Quote> fetchedQuote = await _quoteRepository.FindByAccount(accountId, onlyAcceptedQuotes);
+                return fetchedQuote;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<Quote> Update(Quote quote)
 		{
 			try
 			{

@@ -45,6 +45,7 @@ namespace BluePillCRM.Application.WebApi.Controllers
             {
 
                 Quote createdQuote = await _quoteService.CreateQuote(QuoteDtoToEntity.CreateQuoteMapper(createQuote, userId));
+                Console.WriteLine(createdQuote);
                 if (createQuote.Products != null)
                 {
                     foreach (AddProduct product in createQuote.Products)
@@ -84,6 +85,7 @@ namespace BluePillCRM.Application.WebApi.Controllers
 
                             await _quoteProductService.Create(quoteProduct);
                             quoteProductList.Add(quoteProduct);
+
                         } catch(Exception ex)
                         {
                             
@@ -97,13 +99,76 @@ namespace BluePillCRM.Application.WebApi.Controllers
                     await _quoteService.Update(createdQuote);
 
                 }
-                return Ok(new { quote = createdQuote });
+                Console.Write(createdQuote);
+                return Ok(QuoteEntityToDto.ReadQuoteMapper(createdQuote));
             } catch(Exception ex)
             {
                 return StatusCode(500, new { message = ex.Message });
             }
 
         }
+
+
+        [Authorize]
+        [HttpGet("bycontact")]
+        public async Task<IActionResult> GetQuoteByContact(int contactId, Boolean onlyAcceptedQuotes)
+        {
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
+
+            if(contactId == 0)
+            {
+                return BadRequest("Veuillez fournir un id de contact.");
+            }
+
+            try
+            {
+                List<Quote> fetchedQuotes = await _quoteService.FindByContact(contactId, onlyAcceptedQuotes);
+                if(fetchedQuotes != null)
+                {
+                    return Ok(fetchedQuotes.Select(singleQuote => QuoteEntityToDto.ReadQuoteMapper(singleQuote)));
+                } else
+                {
+                    return Ok(new { message = "Aucun devis trouvé" });
+                }
+            } catch(Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("byaccount")]
+        public async Task<IActionResult> GetQuoteByAccount(int accountId, Boolean onlyAcceptedQuotes)
+        {
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
+
+            if (accountId == 0)
+            {
+                return BadRequest("Veuillez fournir un id de contact.");
+            }
+
+            try
+            {
+                List<Quote> fetchedQuotes = await _quoteService.FindByAccount(accountId, onlyAcceptedQuotes);
+                if (fetchedQuotes != null)
+                {
+                    return Ok(fetchedQuotes.Select(singleQuote => QuoteEntityToDto.ReadQuoteMapper(singleQuote)));
+                }
+                else
+                {
+                    return Ok(new { message = "Aucun devis trouvé" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+
+        }
+
 
     }
 }
