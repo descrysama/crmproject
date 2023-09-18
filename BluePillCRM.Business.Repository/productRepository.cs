@@ -84,6 +84,7 @@ namespace BluePillCRM.Business.Repository
                                 .AsNoTracking()
                                 .Include(u => u.CreatedByNavigation)
                                 .Include(u => u.UpdatedByNavigation)
+                                .Where(u => u.Id == id && u.IsDisabled == false)
                                 .FirstOrDefaultAsync(u => u.Id == id)
                                 .ConfigureAwait(false);
 

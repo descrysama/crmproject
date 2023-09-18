@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BluePillCRM.Datas.Entities;
 
@@ -21,15 +22,17 @@ public partial class Quote
 
     public DateTime? SendQuoteDate { get; set; }
 
-    public int TaxesId { get; set; }
+    public int? TaxesId { get; set; }
 
     public int PaymentMethod { get; set; }
+
+    public decimal Total { get; set; }
 
     public decimal TotalWithoutTaxWithDiscount { get; set; }
 
     public decimal TotalTaxAmount { get; set; }
 
-    public int TotalWithTaxWithDiscount { get; set; }
+    public decimal TotalWithTaxWithDiscount { get; set; }
 
     public string? Description { get; set; }
 
@@ -61,7 +64,12 @@ public partial class Quote
 
     public virtual SendMethod? SendMethod { get; set; }
 
-    public virtual Taxis Taxes { get; set; } = null!;
+    public virtual Taxis? Taxes { get; set; }
 
     public virtual User? UpdatedByNavigation { get; set; }
+
+    public static implicit operator Quote(EntityEntry<Quote> v)
+    {
+        throw new NotImplementedException();
+    }
 }

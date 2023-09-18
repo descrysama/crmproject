@@ -20,7 +20,9 @@ namespace BluePillCRM.Application.Ioc
             services.AddScoped<UserRepository>();
             services.AddScoped<AccountRepository>();
             services.AddScoped<ProductRepository>();
-
+            services.AddScoped<QuoteProductRepository>();
+            services.AddScoped<QuoteRepository>();
+            services.AddScoped<TaxRepository>();
             return services;
         }
 
@@ -33,7 +35,9 @@ namespace BluePillCRM.Application.Ioc
             services.AddScoped<UserUtilities>();
             services.AddScoped<AccountService>();
             services.AddScoped<ProductService>();
-
+            services.AddScoped<QuoteProductService>();
+            services.AddScoped<QuoteService>();
+            services.AddScoped<TaxService>();
             return services;
         }
 

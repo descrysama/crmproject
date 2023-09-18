@@ -25,6 +25,8 @@ public partial class QuotesProduct
 
     public decimal? TotalAmountWithTaxWithDiscount { get; set; }
 
+    public int Quantity { get; set; } = 1;
+
     public string? Description { get; set; }
 
     public int? UpdatedBy { get; set; }

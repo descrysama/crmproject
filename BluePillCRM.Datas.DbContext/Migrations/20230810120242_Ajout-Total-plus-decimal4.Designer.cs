@@ -3,6 +3,7 @@ using System;
 using BluePillCRM.Datas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BluePillCRM.Datas.Migrations
 {
     [DbContext(typeof(BluePillCRMDbContext))]
-    partial class BluePillCRMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230810120242_Ajout-Total-plus-decimal4")]
+    partial class AjoutTotalplusdecimal4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -538,10 +541,6 @@ namespace BluePillCRM.Datas.Migrations
                         .HasColumnType("int")
                         .HasColumnName("product_id");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
-
                     b.Property<int>("TaxesId")
                         .HasColumnType("int")
                         .HasColumnName("taxes_id");
@@ -763,10 +762,6 @@ namespace BluePillCRM.Datas.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int")
                         .HasColumnName("product_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
 
                     b.Property<int>("TaxesId")
                         .HasColumnType("int")
@@ -1056,10 +1051,6 @@ namespace BluePillCRM.Datas.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int")
                         .HasColumnName("product_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
 
                     b.Property<int>("QuoteId")
                         .HasColumnType("int")

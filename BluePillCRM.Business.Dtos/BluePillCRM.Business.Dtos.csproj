@@ -13,9 +13,11 @@
   <ItemGroup>
     <None Remove="Quote\" />
     <None Remove="Country\" />
+    <None Remove="QuoteProduct\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Quote\" />
     <Folder Include="Country\" />
+    <Folder Include="QuoteProduct\" />
   </ItemGroup>
 </Project>

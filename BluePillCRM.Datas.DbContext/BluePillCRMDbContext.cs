@@ -55,7 +55,7 @@ public partial class BluePillCRMDbContext : DbContext
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=crmdatabase.mysql.database.azure.com;database=bluepillcrm;port=3306;User=descry;Password=Google59", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
+        => optionsBuilder.UseMySql("server=localhost;database=bluepillcrm;port=8889;User=root;Password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -307,7 +307,7 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.MaxContacts).HasColumnName("max_contacts");
             entity.Property(e => e.MaxUsers).HasColumnName("max_users");
             entity.Property(e => e.MonthlyCost)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("monthly_cost");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.Title)
@@ -350,7 +350,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("description");
             entity.Property(e => e.DiscountPercentage)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("discount_percentage");
             entity.Property(e => e.EmailToSendAt)
                 .HasMaxLength(256)
@@ -366,16 +366,16 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
             entity.Property(e => e.SendMethodId).HasColumnName("send_method_id");
             entity.Property(e => e.TotalAmountWithTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_with_tax_with_discount");
             entity.Property(e => e.TotalAmountWithoutTax)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax");
             entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax_with_discount");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
             entity.Property(e => e.TransactionCurrency)
                 .HasMaxLength(64)
@@ -447,7 +447,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasMaxLength(256)
                 .HasColumnName("description");
             entity.Property(e => e.DiscountPercentage)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("discount_percentage");
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.InvoicesId).HasColumnName("invoices_id");
@@ -457,16 +457,17 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
             entity.Property(e => e.TotalAmountWithTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_with_tax_with_discount");
             entity.Property(e => e.TotalAmountWithoutTax)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax");
             entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax_with_discount");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
@@ -550,16 +551,16 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.SendMethodId).HasColumnName("send_method_id");
             entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
             entity.Property(e => e.TotalAmountWithTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_with_tax_with_discount");
             entity.Property(e => e.TotalAmountWithoutTax)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax");
             entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax_with_discount");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
             entity.Property(e => e.TransactionCurrency)
                 .HasMaxLength(256)
@@ -635,7 +636,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasMaxLength(256)
                 .HasColumnName("description");
             entity.Property(e => e.DiscountPercentage)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("discount_percentage");
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.OrdersId).HasColumnName("orders_id");
@@ -645,16 +646,17 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
             entity.Property(e => e.TotalAmountWithTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_with_tax_with_discount");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.TotalAmountWithoutTax)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax");
             entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax_with_discount");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
@@ -718,7 +720,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnName("description");
             entity.Property(e => e.IsDisabled).HasColumnName("is_disabled");
             entity.Property(e => e.Price)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("price");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(256)
@@ -787,12 +789,17 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasColumnName("send_quote_date");
             entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
-            entity.Property(e => e.TotalWithTaxWithDiscount).HasColumnName("total_with_tax_with_discount");
+            entity.Property(e => e.TotalWithTaxWithDiscount)
+                .HasPrecision(10, 4)
+                .HasColumnName("total_with_tax_with_discount");
             entity.Property(e => e.TotalWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_without_tax_with_discount");
+            entity.Property(e => e.Total)
+                .HasPrecision(10, 4)
+                .HasColumnName("total");
             entity.Property(e => e.TransactionCurency)
                 .HasMaxLength(256)
                 .HasColumnName("transaction_curency");
@@ -865,7 +872,7 @@ public partial class BluePillCRMDbContext : DbContext
                 .HasMaxLength(256)
                 .HasColumnName("description");
             entity.Property(e => e.DiscountPercentage)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("discount_percentage");
             entity.Property(e => e.OutOfCatalogProduct)
                 .HasMaxLength(256)
@@ -874,16 +881,17 @@ public partial class BluePillCRMDbContext : DbContext
             entity.Property(e => e.QuoteId).HasColumnName("quote_id");
             entity.Property(e => e.TaxesId).HasColumnName("taxes_id");
             entity.Property(e => e.TotalAmountWithTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_with_tax_with_discount");
             entity.Property(e => e.TotalAmountWithoutTax)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.TotalAmountWithoutTaxWithDiscount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_amount_without_tax_with_discount");
             entity.Property(e => e.TotalTaxAmount)
-                .HasPrecision(10, 2)
+                .HasPrecision(10, 4)
                 .HasColumnName("total_tax_amount");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
