@@ -51,6 +51,18 @@ namespace BluePillCRM.Business.Services
             }
         }
 
+		public async Task<Quote> GetSingle(int quoteId)
+		{
+			try
+			{
+				Quote quote = await _quoteRepository.GetById(quoteId);
+				return quote;
+			} catch(Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
         public async Task<Quote> Update(Quote quote)
 		{
 			try
