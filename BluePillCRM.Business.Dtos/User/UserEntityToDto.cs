@@ -8,6 +8,7 @@ namespace BluePillCRM.Business.Dtos
         {
             readUser user = new readUser()
             {
+                Id = entityUser.Id,
                 Username = entityUser.Username,
                 Email = entityUser.Email,
                 Name = entityUser.Name,
