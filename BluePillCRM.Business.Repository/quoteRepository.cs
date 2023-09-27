@@ -37,6 +37,13 @@ namespace BluePillCRM.Business.Repository
                 .SingleOrDefaultAsync(qp => qp.Id == Id).ConfigureAwait(false);
         }
 
+        public async Task<Quote> FindById(int quoteId)
+        {
+            Quote fetchedQuote = await _table.FirstOrDefaultAsync(q => q.Id == quoteId).ConfigureAwait(false);
+
+            return fetchedQuote;
+        }
+
         public async Task<List<Quote>> FindByContact(int contactId, Boolean onlyAcceptedQuotes)
         {
             try
