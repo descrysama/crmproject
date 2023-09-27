@@ -97,7 +97,6 @@ namespace BluePillCRM.Application.WebApi.Controllers
                     createdQuote.Total = quoteProductList.Sum(qp => qp.TotalAmountWithoutTax != null ? Convert.ToDecimal(qp.TotalAmountWithoutTax) : 0);
 
                     await _quoteService.Update(createdQuote);
-
                 }
                 Console.Write(createdQuote);
                 return Ok(QuoteEntityToDto.ReadQuoteMapper(createdQuote));
