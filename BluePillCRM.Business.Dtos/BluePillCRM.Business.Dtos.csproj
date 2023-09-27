@@ -14,10 +14,12 @@
     <None Remove="Quote\" />
     <None Remove="Country\" />
     <None Remove="QuoteProduct\" />
+    <None Remove="Invoice\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Quote\" />
     <Folder Include="Country\" />
     <Folder Include="QuoteProduct\" />
+    <Folder Include="Invoice\" />
   </ItemGroup>
 </Project>
