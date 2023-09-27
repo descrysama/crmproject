@@ -56,6 +56,86 @@ namespace BluePillCRM.Application.WebApi.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+        
+        [Authorize]
+        [HttpPost()]
+        public async Task<IActionResult> CreateQuote(CreateQuote createQuote)
+        {
+            List<QuotesProduct> quoteProductList = new List<QuotesProduct>();
+
+            int userId = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            int userRole = Int32.Parse(User.FindFirst("Role")?.Value);
+
+            if (createQuote.AccessLevel == 0 || createQuote.AccessLevel < userRole)
+            {
+                createQuote.AccessLevel = userRole;
+            }
+
+            try
+            {
+
+                Quote createdQuote = await _quoteService.CreateQuote(QuoteDtoToEntity.CreateQuoteMapper(createQuote, userId));
+                Console.WriteLine(createdQuote);
+                if (createQuote.Products != null)
+                {
+                    foreach (AddProduct product in createQuote.Products)
+                    {
+                        try
+                        {
+                            Product productPattern = await _productService.GetById(product.ProductId);
+                            Taxis tax;
+                            if (product.TaxId != 0)
+                            {
+                                tax = await _taxService.GetById(Convert.ToInt32(product.TaxId));
+                            }
+                            else
+                            {
+                                tax = await _taxService.GetById(Convert.ToInt32(createdQuote.TaxesId));
+
+                            }
+
+                            QuotesProduct quoteProduct = new QuotesProduct
+                            {
+                                QuoteId = createdQuote.Id,
+                                TaxesId = tax.Id,
+                                Quantity = product.Quantity != 0 ? product.Quantity : 1,
+                                TotalAmountWithoutTax = productPattern.Price * product.Quantity,
+                                TotalAmountWithoutTaxWithDiscount = (productPattern.Price * (1 - product.Discount / 100)) * product.Quantity,
+                                TotalAmountWithTaxWithDiscount = (productPattern.Price * (1 - product.Discount / 100)) * (1 + Convert.ToDecimal(tax.Percentage) / 100) * product.Quantity,
+                                TotalTaxAmount = ((productPattern.Price * (1 - product.Discount / 100)) * (1 + Convert.ToDecimal(tax.Percentage) / 100) * product.Quantity) - ((productPattern.Price * (1 - product.Discount / 100)) * product.Quantity),
+                                DiscountPercentage = product.Discount,
+                                Description = product.Description,
+                                CreatedBy = userId,
+                                CreatedAt = DateTime.Now
+
+                            };
+
+                            quoteProduct.ProductId = productPattern != null ? productPattern.Id : null;
+                            quoteProduct.OutOfCatalogProduct = productPattern == null ? product.Name : null;
+
+                            await _quoteProductService.Create(quoteProduct);
+                            quoteProductList.Add(quoteProduct);
+
+                        } catch(Exception ex)
+                        {
+                            
+                        }
+                    }
+                    createdQuote.TotalWithoutTaxWithDiscount = quoteProductList.Sum(qp => qp.TotalAmountWithoutTaxWithDiscount != null ? Convert.ToDecimal(qp.TotalAmountWithoutTaxWithDiscount) : 0);
+                    createdQuote.TotalTaxAmount = quoteProductList.Sum(qp => qp.TotalTaxAmount != null ? Convert.ToDecimal(qp.TotalTaxAmount) : 0);
+                    createdQuote.TotalWithTaxWithDiscount = quoteProductList.Sum(qp => qp.TotalAmountWithTaxWithDiscount != null ? Convert.ToDecimal(qp.TotalAmountWithTaxWithDiscount) : 0);
+                    createdQuote.Total = quoteProductList.Sum(qp => qp.TotalAmountWithoutTax != null ? Convert.ToDecimal(qp.TotalAmountWithoutTax) : 0);
+
+                    await _quoteService.Update(createdQuote);
+                }
+                Console.Write(createdQuote);
+                return Ok(QuoteEntityToDto.ReadQuoteMapper(createdQuote));
+            } catch(Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+
+        }
 
         [Authorize]
         [HttpGet("bycontact")]
